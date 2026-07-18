@@ -1,0 +1,37 @@
+.skipLink {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-4);
+    z-index: 1000;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-small);
+    background-color: var(--colour-accent);
+    color: var(--colour-on-accent);
+    font-weight: 700;
+    transform: translateY(-200%);
+}
+
+.skipLink:focus {
+    transform: translateY(0);
+}
+
+.skipLink {
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  z-index: 1000;
+  max-width: calc(100% - 2rem);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-small);
+  background-color: var(--colour-accent);
+  color: var(--colour-on-accent);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.skipLink:focus {
+  position: static;
+  align-self: flex-start;
+  margin: var(--space-2) var(--space-4);
+  transform: none;
+}
