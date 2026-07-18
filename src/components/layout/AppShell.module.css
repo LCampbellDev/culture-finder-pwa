@@ -1,0 +1,44 @@
+.siteHeader {
+  background-color: var(--colour-surface);
+  border-bottom: 1px solid var(--colour-border-subtle);
+}
+
+.headerInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+}
+
+.siteTitle {
+  color: var(--colour-accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mainContent {
+  flex: 1;
+  padding-block: var(--space-6);
+}
+
+.siteFooter {
+  margin-top: auto;
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--colour-border-subtle);
+  background-color: var(--colour-surface);
+}
+
+.siteFooter p {
+  margin: 0;
+}
