@@ -1,0 +1,23 @@
+.demoSection {
+  max-width: 44rem;
+  padding: var(--space-5);
+  border: 1px solid var(--colour-border-subtle);
+  border-radius: var(--radius-medium);
+  background-color: var(--colour-surface);
+}
+
+.demoSection h2 {
+  margin-block-start: 0;
+}
+
+.demoSection h2[tabindex] {
+  padding: var(--space-2);
+  border-radius: var(--radius-small);
+}
+
+.securityNotice {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 4px solid var(--colour-border-strong);
+}
+
+/* If the Wishlists page later uses the same panel design, we can extract a shared Panel.module.css */

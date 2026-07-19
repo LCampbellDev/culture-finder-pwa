@@ -5,7 +5,7 @@ import EventList from "../../components/events/EventList";
 import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
 import { searchEvents } from "../../lib/api/events";
-import styles from "./SearchPageClient.module.css";
+import feedbackStyles from "../../components/ui/Feedback.module.css";;
 
 export default function SearchPageClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +53,7 @@ export default function SearchPageClient() {
       <SearchForm onSearch={handleSearch} isLoading={isLoading} />
 
       <div
-        className={styles.feedback}
+        className={feedbackStyles.feedback}
         aria-live="polite"
         aria-atomic="true"
       >
@@ -62,7 +62,7 @@ export default function SearchPageClient() {
       </div>
 
       {errorMessage && (
-        <p className={styles.error} role="alert">
+        <p className={feedbackStyles.error} role="alert">
           {errorMessage}
         </p>
       )}
