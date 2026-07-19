@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import styles from "./SearchForm.module.css";
+import styles from "./Form.module.css";
 
 const categories = [
   "Arts & Theatre",
