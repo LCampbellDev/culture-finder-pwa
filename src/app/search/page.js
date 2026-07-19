@@ -1,11 +1,5 @@
-import PageHeader from "../../components/ui/PageHeader";
+import SearchPageClient from "./SearchPageClient";
 
 export default function SearchPage() {
-  return (
-    <PageHeader
-      title="Search events"
-      description="Event search will be added here in a later feature"
-    />
-  );
+  return <SearchPageClient />;
 }
-
