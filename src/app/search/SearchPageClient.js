@@ -1,22 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import EventList from "../../components/events/EventList";
 import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
 import { searchEvents } from "../../lib/api/events";
+import styles from "./SearchPageClient.module.css";
 
 export default function SearchPageClient() {
   const [isLoading, setIsLoading] = useState(false);
+  const [events, setEvents] = useState([]);
   const [resultMessage, setResultMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSearch(city, category) {
     setIsLoading(true);
+    setEvents([]);
     setResultMessage("");
     setErrorMessage("");
 
     try {
       const result = await searchEvents(city, category);
+
+      setEvents(result.events);
 
       if (result.count === 0) {
         setResultMessage(
@@ -46,12 +52,23 @@ export default function SearchPageClient() {
 
       <SearchForm onSearch={handleSearch} isLoading={isLoading} />
 
-      <div aria-live="polite" aria-atomic="true">
+      <div
+        className={styles.feedback}
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {isLoading && <p>Searching for events…</p>}
         {!isLoading && resultMessage && <p>{resultMessage}</p>}
       </div>
 
-      {errorMessage && <p role="alert">{errorMessage}</p>}
+      {errorMessage && (
+        <p className={styles.error} role="alert">
+          {errorMessage}
+        </p>
+      )}
+
+      <EventList events={events} />
     </>
   );
 }
+

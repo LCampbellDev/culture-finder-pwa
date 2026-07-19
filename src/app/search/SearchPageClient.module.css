@@ -1,0 +1,16 @@
+.feedback {
+  min-height: 1.6em;
+  margin-block-start: var(--space-5);
+  font-weight: 700;
+}
+
+.feedback p,
+.error {
+  margin-block: 0;
+}
+
+.error {
+  margin-block-start: var(--space-5);
+  color: var(--colour-error);
+  font-weight: 700;
+}

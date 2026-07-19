@@ -18,7 +18,16 @@ describe("SearchPageClient", () => {
     searchEvents.mockResolvedValue({
       city: "Leeds",
       count: 2,
-      events: [{ event_id: 1 }, { event_id: 2 }],
+      events: [
+        {
+          event_id: 1,
+          event_name: "Leeds Jazz Evening",
+        },
+        {
+          event_id: 2,
+          event_name: "Leeds Folk Festival",
+        },
+      ],
     });
 
     render(<SearchPageClient />);
@@ -41,6 +50,22 @@ describe("SearchPageClient", () => {
 
     expect(
       await screen.findByText("Found 2 events in Leeds."),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("region", { name: /event results/i }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Leeds Jazz Evening",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Leeds Folk Festival",
+      }),
     ).toBeInTheDocument();
   });
 
@@ -69,6 +94,10 @@ describe("SearchPageClient", () => {
         "No events found in York. Try another city or category.",
       ),
     ).toBeInTheDocument();
+
+    expect(
+      screen.queryByRole("region", { name: /event results/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("shows an accessible error when the search fails", async () => {
@@ -94,5 +123,9 @@ describe("SearchPageClient", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "We could not search for events. Check your connection and try again",
     );
+
+    expect(
+      screen.queryByRole("region", { name: /event results/i }),
+    ).not.toBeInTheDocument();
   });
 });
