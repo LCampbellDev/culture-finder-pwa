@@ -1,21 +1,14 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-export const DEMO_PROFILE_STORAGE_KEY =
-  "culture-finder-demo-profile";
+export const DEMO_PROFILE_STORAGE_KEY = "culture-finder-demo-profile";
 
 const DemoProfileContext = createContext(null);
 
 function containsUnsupportedCharacters(value) {
   return [...value].some(
-    (character) =>
-      character !== " " && /[\p{C}\p{Z}]/u.test(character),
+    (character) => character !== " " && /[\p{C}\p{Z}]/u.test(character),
   );
 }
 
@@ -38,34 +31,32 @@ export function DemoProfileProvider({ children }) {
   const [isProfileReady, setIsProfileReady] = useState(false);
 
   useEffect(() => {
-  const restoreProfileTimer = window.setTimeout(() => {
-    try {
-      const storedProfile = window.localStorage.getItem(
-        DEMO_PROFILE_STORAGE_KEY,
-      );
+    const restoreProfileTimer = window.setTimeout(() => {
+      try {
+        const storedProfile = window.localStorage.getItem(
+          DEMO_PROFILE_STORAGE_KEY,
+        );
 
-      if (storedProfile) {
-        const parsedProfile = JSON.parse(storedProfile);
+        if (storedProfile) {
+          const parsedProfile = JSON.parse(storedProfile);
 
-        if (isValidDemoProfile(parsedProfile)) {
-          setProfile(parsedProfile);
-        } else {
-          window.localStorage.removeItem(
-            DEMO_PROFILE_STORAGE_KEY,
-          );
+          if (isValidDemoProfile(parsedProfile)) {
+            setProfile(parsedProfile);
+          } else {
+            window.localStorage.removeItem(DEMO_PROFILE_STORAGE_KEY);
+          }
         }
+      } catch {
+        // The app remains usable when browser storage is unavailable
+      } finally {
+        setIsProfileReady(true);
       }
-    } catch {
-      // The app remains usable when browser storage is unavailable
-    } finally {
-      setIsProfileReady(true);
-    }
-  }, 0);
+    }, 0);
 
-  return () => {
-    window.clearTimeout(restoreProfileTimer);
-  };
-}, []);
+    return () => {
+      window.clearTimeout(restoreProfileTimer);
+    };
+  }, []);
 
   function saveDemoProfile(nextProfile) {
     if (!isValidDemoProfile(nextProfile)) {
@@ -88,9 +79,7 @@ export function DemoProfileProvider({ children }) {
     setProfile(null);
 
     try {
-      window.localStorage.removeItem(
-        DEMO_PROFILE_STORAGE_KEY,
-      );
+      window.localStorage.removeItem(DEMO_PROFILE_STORAGE_KEY);
     } catch {
       // Clearing in-memory state still allows profile switching
     }
@@ -114,11 +103,8 @@ export function useDemoProfile() {
   const context = useContext(DemoProfileContext);
 
   if (!context) {
-    throw new Error(
-      "useDemoProfile must be used within DemoProfileProvider",
-    );
+    throw new Error("useDemoProfile must be used within DemoProfileProvider");
   }
 
   return context;
 }
-

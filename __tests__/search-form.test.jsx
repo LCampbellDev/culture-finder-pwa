@@ -14,9 +14,7 @@ describe("SearchForm", () => {
       screen.getByRole("textbox", { name: /city or location/i }),
     ).toBeRequired();
 
-    expect(
-      screen.getByRole("combobox", { name: /category/i }),
-    ).toHaveValue("");
+    expect(screen.getByRole("combobox", { name: /category/i })).toHaveValue("");
 
     expect(
       screen.getByRole("button", { name: /search events/i }),
@@ -29,17 +27,15 @@ describe("SearchForm", () => {
 
     render(<SearchForm onSearch={onSearch} />);
 
-    await user.click(
-      screen.getByRole("button", { name: /search events/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /search events/i }));
 
     const cityInput = screen.getByRole("textbox", {
       name: /city or location/i,
     });
 
-    expect(
-      screen.getByRole("alert"),
-    ).toHaveTextContent("Enter a city or location");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Enter a city or location",
+    );
 
     expect(cityInput).toHaveAttribute("aria-invalid", "true");
     expect(cityInput).toHaveFocus();
@@ -62,9 +58,7 @@ describe("SearchForm", () => {
       "Music",
     );
 
-    await user.click(
-      screen.getByRole("button", { name: /search events/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /search events/i }));
 
     expect(onSearch).toHaveBeenCalledWith("Leeds", "Music");
   });
@@ -72,8 +66,6 @@ describe("SearchForm", () => {
   it("shows the loading state and disables repeat submission", () => {
     render(<SearchForm onSearch={jest.fn()} isLoading />);
 
-    expect(
-      screen.getByRole("button", { name: /searching/i }),
-    ).toBeDisabled();
+    expect(screen.getByRole("button", { name: /searching/i })).toBeDisabled();
   });
 });

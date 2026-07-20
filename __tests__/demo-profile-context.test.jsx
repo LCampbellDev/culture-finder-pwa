@@ -7,12 +7,8 @@ import {
 } from "../src/context/DemoProfileContext";
 
 function ProfileTestControls() {
-  const {
-    profile,
-    isProfileReady,
-    saveDemoProfile,
-    clearDemoProfile,
-  } = useDemoProfile();
+  const { profile, isProfileReady, saveDemoProfile, clearDemoProfile } =
+    useDemoProfile();
 
   if (!isProfileReady) {
     return <p>Loading profile</p>;
@@ -21,9 +17,7 @@ function ProfileTestControls() {
   return (
     <>
       <p>
-        {profile
-          ? `Active profile: ${profile.username}`
-          : "No active profile"}
+        {profile ? `Active profile: ${profile.username}` : "No active profile"}
       </p>
 
       <button
@@ -61,20 +55,14 @@ describe("DemoProfileProvider", () => {
 
     await screen.findByText("No active profile");
 
-    await user.click(
-      screen.getByRole("button", { name: /save profile/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /save profile/i }));
 
     expect(
       screen.getByText("Active profile: demo-reviewer"),
     ).toBeInTheDocument();
 
     expect(
-      JSON.parse(
-        window.localStorage.getItem(
-          DEMO_PROFILE_STORAGE_KEY,
-        ),
-      ),
+      JSON.parse(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)),
     ).toEqual({
       userId: 7,
       username: "demo-reviewer",
@@ -97,9 +85,7 @@ describe("DemoProfileProvider", () => {
     );
 
     expect(
-      await screen.findByText(
-        "Active profile: demo-reviewer",
-      ),
+      await screen.findByText("Active profile: demo-reviewer"),
     ).toBeInTheDocument();
   });
 
@@ -118,16 +104,10 @@ describe("DemoProfileProvider", () => {
       </DemoProfileProvider>,
     );
 
-    expect(
-      await screen.findByText("No active profile"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("No active profile")).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(
-        window.localStorage.getItem(
-          DEMO_PROFILE_STORAGE_KEY,
-        ),
-      ).toBeNull();
+      expect(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)).toBeNull();
     });
   });
 
@@ -150,19 +130,10 @@ describe("DemoProfileProvider", () => {
 
     await screen.findByText("Active profile: demo-reviewer");
 
-    await user.click(
-      screen.getByRole("button", { name: /clear profile/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /clear profile/i }));
 
-    expect(
-      screen.getByText("No active profile"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("No active profile")).toBeInTheDocument();
 
-    expect(
-      window.localStorage.getItem(
-        DEMO_PROFILE_STORAGE_KEY,
-      ),
-    ).toBeNull();
+    expect(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)).toBeNull();
   });
 });
-

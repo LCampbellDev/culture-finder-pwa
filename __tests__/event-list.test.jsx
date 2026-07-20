@@ -50,4 +50,3 @@ describe("EventList", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
-

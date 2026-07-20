@@ -1,8 +1,4 @@
-import {
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DemoProfileForm from "../src/components/forms/DemoProfileForm";
 
@@ -26,9 +22,7 @@ describe("DemoProfileForm", () => {
     const user = userEvent.setup();
     const onProfileSubmit = jest.fn();
 
-    render(
-      <DemoProfileForm onProfileSubmit={onProfileSubmit} />,
-    );
+    render(<DemoProfileForm onProfileSubmit={onProfileSubmit} />);
 
     await user.click(
       screen.getByRole("button", {
@@ -53,9 +47,7 @@ describe("DemoProfileForm", () => {
     const user = userEvent.setup();
     const onProfileSubmit = jest.fn();
 
-    render(
-      <DemoProfileForm onProfileSubmit={onProfileSubmit} />,
-    );
+    render(<DemoProfileForm onProfileSubmit={onProfileSubmit} />);
 
     const input = screen.getByRole("textbox", {
       name: /demo username/i,
@@ -84,9 +76,7 @@ describe("DemoProfileForm", () => {
     const user = userEvent.setup();
     const onProfileSubmit = jest.fn();
 
-    render(
-      <DemoProfileForm onProfileSubmit={onProfileSubmit} />,
-    );
+    render(<DemoProfileForm onProfileSubmit={onProfileSubmit} />);
 
     fireEvent.change(
       screen.getByRole("textbox", {
@@ -116,9 +106,7 @@ describe("DemoProfileForm", () => {
     const user = userEvent.setup();
     const onProfileSubmit = jest.fn();
 
-    render(
-      <DemoProfileForm onProfileSubmit={onProfileSubmit} />,
-    );
+    render(<DemoProfileForm onProfileSubmit={onProfileSubmit} />);
 
     await user.type(
       screen.getByRole("textbox", {
@@ -133,18 +121,11 @@ describe("DemoProfileForm", () => {
       }),
     );
 
-    expect(onProfileSubmit).toHaveBeenCalledWith(
-      "demo-reviewer",
-    );
+    expect(onProfileSubmit).toHaveBeenCalledWith("demo-reviewer");
   });
 
   it("disables repeat submission while loading", () => {
-    render(
-      <DemoProfileForm
-        onProfileSubmit={jest.fn()}
-        isLoading
-      />,
-    );
+    render(<DemoProfileForm onProfileSubmit={jest.fn()} isLoading />);
 
     expect(
       screen.getByRole("button", {
@@ -153,4 +134,3 @@ describe("DemoProfileForm", () => {
     ).toBeDisabled();
   });
 });
-

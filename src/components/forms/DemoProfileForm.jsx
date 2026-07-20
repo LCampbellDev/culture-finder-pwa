@@ -7,8 +7,7 @@ const MAX_USERNAME_LENGTH = 50;
 
 function containsUnsupportedCharacters(value) {
   return [...value].some(
-    (character) =>
-      character !== " " && /[\p{C}\p{Z}]/u.test(character),
+    (character) => character !== " " && /[\p{C}\p{Z}]/u.test(character),
   );
 }
 
@@ -95,21 +94,13 @@ export default function DemoProfileForm({
         />
 
         {usernameError && (
-          <p
-            className={styles.error}
-            id="demo-username-error"
-            role="alert"
-          >
+          <p className={styles.error} id="demo-username-error" role="alert">
             {usernameError}
           </p>
         )}
       </div>
 
-      <button
-        className={styles.button}
-        type="submit"
-        disabled={isLoading}
-      >
+      <button className={styles.button} type="submit" disabled={isLoading}>
         {isLoading
           ? "Creating demo profile…"
           : "Create or continue with demo profile"}
@@ -117,4 +108,3 @@ export default function DemoProfileForm({
     </form>
   );
 }
-

@@ -1,6 +1,5 @@
 const CITY_REQUIRED_MESSAGE = "Enter a city or location";
-const CONFIGURATION_ERROR_MESSAGE =
-  "Event search is not available right now";
+const CONFIGURATION_ERROR_MESSAGE = "Event search is not available right now";
 const SEARCH_ERROR_MESSAGE =
   "We could not search for events. Check your connection and try again";
 
