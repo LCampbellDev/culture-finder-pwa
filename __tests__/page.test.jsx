@@ -1,15 +1,24 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../src/app/page";
+import { DemoProfileProvider } from "../src/context/DemoProfileContext";
 
 describe("Home", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
   it("renders the Culture Finder home page heading", () => {
-    render(<Home />);
+    render(
+      <DemoProfileProvider>
+        <Home />
+      </DemoProfileProvider>,
+    );
 
-    const heading = screen.getByRole("heading", {
-      name: /find cultural events near you/i,
-    });
-
-    expect(heading).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: /find cultural events near you/i,
+      }),
+    ).toBeInTheDocument();
   });
 });
-

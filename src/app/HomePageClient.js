@@ -2,31 +2,42 @@
 
 import { useState } from "react";
 import DemoProfileForm from "../components/forms/DemoProfileForm";
-import FeedbackStyles from "../components/ui/Feedback.module.css";
+import feedbackStyles from "../components/ui/Feedback.module.css";
 import PageHeader from "../components/ui/PageHeader";
+import { useDemoProfile } from "../context/DemoProfileContext";
 import { createOrContinueDemoProfile } from "../lib/api/users";
 import pageStyles from "./HomePageClient.module.css";
 
 export default function HomePageClient() {
   const [isLoading, setIsLoading] = useState(false);
-  const [activeProfile, setActiveProfile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const {
+    profile,
+    isProfileReady,
+    saveDemoProfile,
+    clearDemoProfile,
+  } = useDemoProfile();
 
   async function handleProfileSubmit(username) {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const profile =
+      const nextProfile =
         await createOrContinueDemoProfile(username);
 
-      setActiveProfile(profile);
+      saveDemoProfile(nextProfile);
     } catch (error) {
-      setActiveProfile(null);
       setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function handleChangeProfile() {
+    clearDemoProfile();
+    setErrorMessage("");
   }
 
   return (
@@ -46,7 +57,8 @@ export default function HomePageClient() {
 
         <p>
           Choose a demo username to create wishlists and save
-          events. Wishlist data may remain in the demo database
+          events. Your selected username will be remembered in this
+          browser, and wishlist data may remain in the demo database
           between visits.
         </p>
 
@@ -59,26 +71,47 @@ export default function HomePageClient() {
 
         <p>Demo data may be reset or deleted.</p>
 
-        <DemoProfileForm
-          onProfileSubmit={handleProfileSubmit}
-          isLoading={isLoading}
-        />
+        {!isProfileReady && (
+          <div
+            className={feedbackStyles.feedback}
+            aria-live="polite"
+          >
+            <p>Checking for a saved demo profile…</p>
+          </div>
+        )}
 
-        <div
-          className={`${FeedbackStyles.feedback} ${FeedbackStyles.success}`}
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {activeProfile && (
-            <p>
-              Demo profile “{activeProfile.username}” is active for
-              this visit
-            </p>
-          )}
-        </div>
+        {isProfileReady && !profile && (
+          <DemoProfileForm
+            onProfileSubmit={handleProfileSubmit}
+            isLoading={isLoading}
+          />
+        )}
+
+        {isProfileReady && profile && (
+          <>
+            <div
+              className={`${feedbackStyles.feedback} ${feedbackStyles.success}`}
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p>
+                Demo profile &quot;{profile.username}&quot; is active
+                on this browser
+              </p>
+            </div>
+
+            <button
+              className={pageStyles.changeButton}
+              type="button"
+              onClick={handleChangeProfile}
+            >
+              Change demo profile
+            </button>
+          </>
+        )}
 
         {errorMessage && (
-          <p className={FeedbackStyles.error} role="alert">
+          <p className={feedbackStyles.error} role="alert">
             {errorMessage}
           </p>
         )}
