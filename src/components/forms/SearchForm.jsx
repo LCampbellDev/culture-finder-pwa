@@ -43,12 +43,14 @@ export default function SearchForm({ onSearch, isLoading = false }) {
   }
 
   return (
-      <form
+    <form
       className={styles.form}
       onSubmit={handleSubmit}
       aria-label="Event search"
       noValidate
-  >     <div className={styles.field}>
+    >
+      {" "}
+      <div className={styles.field}>
         <label className={styles.label} htmlFor="city">
           City or location
           <span aria-hidden="true"> *</span>
@@ -78,7 +80,6 @@ export default function SearchForm({ onSearch, isLoading = false }) {
           </p>
         )}
       </div>
-
       <div className={styles.field}>
         <label className={styles.label} htmlFor="category">
           Category
@@ -105,7 +106,6 @@ export default function SearchForm({ onSearch, isLoading = false }) {
           ))}
         </select>
       </div>
-
       <button className={styles.button} type="submit" disabled={isLoading}>
         {isLoading ? "Searching…" : "Search events"}
       </button>

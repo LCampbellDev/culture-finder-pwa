@@ -30,4 +30,3 @@ describe("PageHeader", () => {
     expect(container.querySelector("p")).not.toBeInTheDocument();
   });
 });
-

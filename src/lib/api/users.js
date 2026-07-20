@@ -1,6 +1,5 @@
 const USERNAME_REQUIRED_MESSAGE = "Enter a demo username";
-const CONFIGURATION_ERROR_MESSAGE =
-  "Demo profiles are not available right now";
+const CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
 const PROFILE_ERROR_MESSAGE =
   "We could not create or continue with the demo profile. Check your connection and try again";
 

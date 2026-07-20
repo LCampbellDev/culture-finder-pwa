@@ -42,9 +42,7 @@ describe("SearchPageClient", () => {
       "Music",
     );
 
-    await user.click(
-      screen.getByRole("button", { name: /search events/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /search events/i }));
 
     expect(searchEvents).toHaveBeenCalledWith("Leeds", "Music");
 
@@ -85,9 +83,7 @@ describe("SearchPageClient", () => {
       "York",
     );
 
-    await user.click(
-      screen.getByRole("button", { name: /search events/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /search events/i }));
 
     expect(
       await screen.findByText(
@@ -116,9 +112,7 @@ describe("SearchPageClient", () => {
       "Leeds",
     );
 
-    await user.click(
-      screen.getByRole("button", { name: /search events/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /search events/i }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "We could not search for events. Check your connection and try again",

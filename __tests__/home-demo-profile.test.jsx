@@ -41,9 +41,7 @@ describe("HomePageClient demo profile", () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(
-        /do not enter personal or sensitive information/i,
-      ),
+      screen.getByText(/do not enter personal or sensitive information/i),
     ).toBeInTheDocument();
   });
 
@@ -69,9 +67,7 @@ describe("HomePageClient demo profile", () => {
       }),
     );
 
-    expect(createOrContinueDemoProfile).toHaveBeenCalledWith(
-      "demo-reviewer",
-    );
+    expect(createOrContinueDemoProfile).toHaveBeenCalledWith("demo-reviewer");
 
     expect(
       await screen.findByText(
@@ -80,11 +76,7 @@ describe("HomePageClient demo profile", () => {
     ).toBeInTheDocument();
 
     expect(
-      JSON.parse(
-        window.localStorage.getItem(
-          DEMO_PROFILE_STORAGE_KEY,
-        ),
-      ),
+      JSON.parse(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)),
     ).toEqual({
       userId: 7,
       username: "demo-reviewer",
@@ -128,11 +120,7 @@ describe("HomePageClient demo profile", () => {
       }),
     ).toBeInTheDocument();
 
-    expect(
-      window.localStorage.getItem(
-        DEMO_PROFILE_STORAGE_KEY,
-      ),
-    ).toBeNull();
+    expect(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)).toBeNull();
   });
 
   it("shows an accessible error when profile creation fails", async () => {
@@ -163,4 +151,3 @@ describe("HomePageClient demo profile", () => {
     );
   });
 });
-

@@ -1,18 +1,18 @@
 .skipLink {
-    position: absolute;
-    top: var(--space-2);
-    left: var(--space-4);
-    z-index: 1000;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-small);
-    background-color: var(--colour-accent);
-    color: var(--colour-on-accent);
-    font-weight: 700;
-    transform: translateY(-200%);
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-4);
+  z-index: 1000;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-small);
+  background-color: var(--colour-accent);
+  color: var(--colour-on-accent);
+  font-weight: 700;
+  transform: translateY(-200%);
 }
 
 .skipLink:focus {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 .skipLink {

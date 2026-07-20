@@ -15,49 +15,46 @@ const completeEvent = {
 };
 
 describe("EventCard", () => {
- it("renders the available event information with semantic structure", () => {
-  render(<EventCard event={completeEvent} />);
+  it("renders the available event information with semantic structure", () => {
+    render(<EventCard event={completeEvent} />);
 
-  const heading = screen.getByRole("heading", {
-    level: 2,
-    name: "Leeds Jazz Evening",
+    const heading = screen.getByRole("heading", {
+      level: 2,
+      name: "Leeds Jazz Evening",
+    });
+
+    const details = screen.getByLabelText(
+      "Event details for Leeds Jazz Evening",
+    );
+
+    expect(screen.getByRole("article")).toBeInTheDocument();
+
+    expect(heading).toBeInTheDocument();
+    expect(heading).toHaveAttribute("tabindex", "0");
+
+    expect(details).toHaveAttribute("tabindex", "0");
+
+    expect(screen.getByText("Music")).toBeInTheDocument();
+    expect(screen.getByText("14 August 2026")).toBeInTheDocument();
+    expect(screen.getByText("19:30")).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Leeds Town Hall, Leeds, Great Britain"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("Wheelchair-accessible entrance"),
+    ).toBeInTheDocument();
   });
-
-  const details = screen.getByLabelText(
-    "Event details for Leeds Jazz Evening",
-  );
-
-  expect(screen.getByRole("article")).toBeInTheDocument();
-
-  expect(heading).toBeInTheDocument();
-  expect(heading).toHaveAttribute("tabindex", "0");
-
-  expect(details).toHaveAttribute("tabindex", "0");
-
-  expect(screen.getByText("Music")).toBeInTheDocument();
-  expect(screen.getByText("14 August 2026")).toBeInTheDocument();
-  expect(screen.getByText("19:30")).toBeInTheDocument();
-
-  expect(
-    screen.getByText("Leeds Town Hall, Leeds, Great Britain"),
-  ).toBeInTheDocument();
-
-  expect(
-    screen.getByText("Wheelchair-accessible entrance"),
-  ).toBeInTheDocument();
-});
 
   it("renders a safe external event link", () => {
     render(<EventCard event={completeEvent} />);
 
     const link = screen.getByRole("link", {
       name: /view and book tickets for Leeds Jazz Evening on Ticketmaster/i,
-});
+    });
 
-    expect(link).toHaveAttribute(
-      "href",
-      "https://example.com/leeds-jazz",
-    );
+    expect(link).toHaveAttribute("href", "https://example.com/leeds-jazz");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });

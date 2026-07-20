@@ -38,9 +38,7 @@ function formatDate(dateValue) {
 
   const isoDateParts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue);
   const flaskDateParts =
-    /^(?:[A-Za-z]{3},\s*)?(\d{1,2})\s([A-Za-z]{3})\s(\d{4})$/.exec(
-      dateValue,
-    );
+    /^(?:[A-Za-z]{3},\s*)?(\d{1,2})\s([A-Za-z]{3})\s(\d{4})$/.exec(dateValue);
 
   let date = null;
 
@@ -125,10 +123,7 @@ export default function EventCard({ event }) {
     <article className={styles.card}>
       <h2 tabIndex="0">{eventName}</h2>
 
-      <dl
-        tabIndex={0}
-        aria-label={`Event details for ${eventName}`}
-      >
+      <dl tabIndex={0} aria-label={`Event details for ${eventName}`}>
         {event.category && (
           <div>
             <dt>Category</dt>
@@ -160,15 +155,11 @@ export default function EventCard({ event }) {
       </dl>
 
       {eventUrl && (
-        <a
-          href={eventUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View and book tickets for {eventName} on Ticketmaster (opens in a new tab)
+        <a href={eventUrl} target="_blank" rel="noopener noreferrer">
+          View and book tickets for {eventName} on Ticketmaster (opens in a new
+          tab)
         </a>
       )}
     </article>
   );
 }
-

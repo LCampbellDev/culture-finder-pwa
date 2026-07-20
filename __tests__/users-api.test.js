@@ -25,12 +25,12 @@ describe("demo profile API", () => {
       }),
     });
 
-    await expect(
-      createOrContinueDemoProfile("demo-reviewer"),
-    ).resolves.toEqual({
-      userId: 7,
-      username: "demo-reviewer",
-    });
+    await expect(createOrContinueDemoProfile("demo-reviewer")).resolves.toEqual(
+      {
+        userId: 7,
+        username: "demo-reviewer",
+      },
+    );
 
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/users",
@@ -69,9 +69,9 @@ describe("demo profile API", () => {
   });
 
   it("rejects an empty username without making a request", async () => {
-    await expect(
-      createOrContinueDemoProfile("   "),
-    ).rejects.toThrow("Enter a demo username");
+    await expect(createOrContinueDemoProfile("   ")).rejects.toThrow(
+      "Enter a demo username",
+    );
 
     expect(fetch).not.toHaveBeenCalled();
   });
@@ -79,9 +79,7 @@ describe("demo profile API", () => {
   it("reports missing API configuration", async () => {
     delete process.env.NEXT_PUBLIC_API_URL;
 
-    await expect(
-      createOrContinueDemoProfile("demo-reviewer"),
-    ).rejects.toThrow(
+    await expect(createOrContinueDemoProfile("demo-reviewer")).rejects.toThrow(
       "Demo profiles are not available right now",
     );
 
@@ -93,9 +91,7 @@ describe("demo profile API", () => {
       ok: false,
     });
 
-    await expect(
-      createOrContinueDemoProfile("demo-reviewer"),
-    ).rejects.toThrow(
+    await expect(createOrContinueDemoProfile("demo-reviewer")).rejects.toThrow(
       "We could not create or continue with the demo profile",
     );
   });
@@ -108,9 +104,7 @@ describe("demo profile API", () => {
       }),
     });
 
-    await expect(
-      createOrContinueDemoProfile("demo-reviewer"),
-    ).rejects.toThrow(
+    await expect(createOrContinueDemoProfile("demo-reviewer")).rejects.toThrow(
       "We could not create or continue with the demo profile",
     );
   });
@@ -118,11 +112,8 @@ describe("demo profile API", () => {
   it("reports a connection failure", async () => {
     fetch.mockRejectedValue(new Error("Network failure"));
 
-    await expect(
-      createOrContinueDemoProfile("demo-reviewer"),
-    ).rejects.toThrow(
+    await expect(createOrContinueDemoProfile("demo-reviewer")).rejects.toThrow(
       "We could not create or continue with the demo profile",
     );
   });
 });
-

@@ -5,7 +5,7 @@ import EventList from "../../components/events/EventList";
 import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
 import { searchEvents } from "../../lib/api/events";
-import feedbackStyles from "../../components/ui/Feedback.module.css";;
+import feedbackStyles from "../../components/ui/Feedback.module.css";
 
 export default function SearchPageClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -71,4 +71,3 @@ export default function SearchPageClient() {
     </>
   );
 }
-

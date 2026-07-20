@@ -12,20 +12,15 @@ export default function HomePageClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const {
-    profile,
-    isProfileReady,
-    saveDemoProfile,
-    clearDemoProfile,
-  } = useDemoProfile();
+  const { profile, isProfileReady, saveDemoProfile, clearDemoProfile } =
+    useDemoProfile();
 
   async function handleProfileSubmit(username) {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const nextProfile =
-        await createOrContinueDemoProfile(username);
+      const nextProfile = await createOrContinueDemoProfile(username);
 
       saveDemoProfile(nextProfile);
     } catch (error) {
@@ -56,26 +51,22 @@ export default function HomePageClient() {
         </h2>
 
         <p>
-          Choose a demo username to create wishlists and save
-          events. Your selected username will be remembered in this
-          browser, and wishlist data may remain in the demo database
-          between visits.
+          Choose a demo username to create wishlists and save events. Your
+          selected username will be remembered in this browser, and wishlist
+          data may remain in the demo database between visits.
         </p>
 
         <p className={pageStyles.securityNotice}>
-          This MVP does not use passwords, authentication or private
-          accounts. Anyone who enters the same username may be able
-          to view or change its wishlists. Use a fictional nickname
-          and do not enter personal or sensitive information.
+          This MVP does not use passwords, authentication or private accounts.
+          Anyone who enters the same username may be able to view or change its
+          wishlists. Use a fictional nickname and do not enter personal or
+          sensitive information.
         </p>
 
         <p>Demo data may be reset or deleted.</p>
 
         {!isProfileReady && (
-          <div
-            className={feedbackStyles.feedback}
-            aria-live="polite"
-          >
+          <div className={feedbackStyles.feedback} aria-live="polite">
             <p>Checking for a saved demo profile…</p>
           </div>
         )}
@@ -95,8 +86,8 @@ export default function HomePageClient() {
               aria-atomic="true"
             >
               <p>
-                Demo profile &quot;{profile.username}&quot; is active
-                on this browser
+                Demo profile &quot;{profile.username}&quot; is active on this
+                browser
               </p>
             </div>
 
@@ -119,4 +110,3 @@ export default function HomePageClient() {
     </>
   );
 }
-
