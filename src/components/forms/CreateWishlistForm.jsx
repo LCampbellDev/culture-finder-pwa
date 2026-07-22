@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Form.module.css";
 
 const MAX_WISHLIST_TITLE_LENGTH = 255;
@@ -19,6 +19,13 @@ export default function CreateWishlistForm({
   const [wishlistTitleError, setWishlistTitleError] = useState("");
 
   const wishlistTitleInputRef = useRef(null);
+  const wishlistTitleErrorRef = useRef(null);
+
+  useEffect(() => {
+    if (wishlistTitleError) {
+      wishlistTitleErrorRef.current?.focus();
+    }
+  }, [wishlistTitleError]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -41,12 +48,16 @@ export default function CreateWishlistForm({
     }
 
     setWishlistTitleError("");
-    await onWishlistSubmit(trimmedTitle);
+
+    const wasCreated = await onWishlistSubmit(trimmedTitle);
+
+    if (wasCreated) {
+      setWishlistTitle("");
+    }
   }
 
   function showError(message) {
     setWishlistTitleError(message);
-    wishlistTitleInputRef.current?.focus();
   }
 
   function handleWishlistTitleChange(event) {
@@ -74,6 +85,18 @@ export default function CreateWishlistForm({
           Use a descriptive name, up to 255 characters
         </p>
 
+        {wishlistTitleError && (
+          <p
+            className={styles.error}
+            id="wishlist-title-error"
+            role="alert"
+            tabIndex="-1"
+            ref={wishlistTitleErrorRef}
+          >
+            <strong>Error:</strong> {wishlistTitleError}
+          </p>
+        )}
+
         <input
           className={styles.control}
           ref={wishlistTitleInputRef}
@@ -92,12 +115,6 @@ export default function CreateWishlistForm({
           }
           aria-invalid={wishlistTitleError ? "true" : undefined}
         />
-
-        {wishlistTitleError && (
-          <p className={styles.error} id="wishlist-title-error" role="alert">
-            {wishlistTitleError}
-          </p>
-        )}
       </div>
 
       <button className={styles.button} type="submit" disabled={isLoading}>

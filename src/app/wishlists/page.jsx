@@ -1,10 +1,10 @@
-import PageHeader from "../../components/ui/PageHeader";
+import WishlistsPageClient from "./WishlistsPageClient";
+
+export const metadata = {
+  title: "Wishlists",
+  description: "Create and manage Culture Finder demo account wishlists",
+};
 
 export default function WishlistsPage() {
-  return (
-    <PageHeader
-      title="Your wishlists"
-      description="Placeholder: Your saved wishlists will be shown here in a later feature"
-    />
-  );
+  return <WishlistsPageClient />;
 }
