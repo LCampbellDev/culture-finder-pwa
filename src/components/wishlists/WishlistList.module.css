@@ -1,0 +1,26 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--colour-border-subtle);
+  border-radius: var(--radius-medium);
+  background-color: var(--colour-surface);
+}
+
+.item h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.emptyMessage {
+  margin-block: 0;
+  color: var(--colour-muted);
+}
