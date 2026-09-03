@@ -154,23 +154,23 @@ export default function EventCard({ event }) {
         )}
       </dl>
 
-    {eventUrl && (
-      <a
-        className={styles.ticketLink}
-        href={eventUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>
-          View and book tickets
-          <span className="visually-hidden">
-            {` for ${eventName} on Ticketmaster`}
+      {eventUrl && (
+        <a
+          className={styles.ticketLink}
+          href={eventUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>
+            View and book tickets
+            <span className="visually-hidden">
+              {` for ${eventName} on Ticketmaster`}
+            </span>
           </span>
-        </span>
 
-        <span className={styles.newTabHint}>Opens in a new tab</span>
-      </a>
-    )}
+          <span className={styles.newTabHint}>Opens in a new tab</span>
+        </a>
+      )}
     </article>
   );
 }

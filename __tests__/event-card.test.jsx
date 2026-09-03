@@ -63,7 +63,7 @@ describe("EventCard", () => {
     expect(eventContext).toHaveClass("visually-hidden");
     expect(link).toHaveTextContent("View and book tickets");
     expect(link).toHaveTextContent("Opens in a new tab");
-    });
+  });
 
   it("handles missing event information safely", () => {
     render(<EventCard event={{}} />);
