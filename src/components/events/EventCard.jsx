@@ -121,9 +121,9 @@ export default function EventCard({ event }) {
 
   return (
     <article className={styles.card}>
-      <h2 tabIndex="0">{eventName}</h2>
+      <h2>{eventName}</h2>
 
-      <dl tabIndex={0} aria-label={`Event details for ${eventName}`}>
+      <dl aria-label={`Event details for ${eventName}`}>
         {event.category && (
           <div>
             <dt>Category</dt>
@@ -154,12 +154,23 @@ export default function EventCard({ event }) {
         )}
       </dl>
 
-      {eventUrl && (
-        <a href={eventUrl} target="_blank" rel="noopener noreferrer">
-          View and book tickets for {eventName} on Ticketmaster (opens in a new
-          tab)
-        </a>
-      )}
+    {eventUrl && (
+      <a
+        className={styles.ticketLink}
+        href={eventUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>
+          View and book tickets
+          <span className="visually-hidden">
+            {` for ${eventName} on Ticketmaster`}
+          </span>
+        </span>
+
+        <span className={styles.newTabHint}>Opens in a new tab</span>
+      </a>
+    )}
     </article>
   );
 }
