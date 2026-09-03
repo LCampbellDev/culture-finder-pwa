@@ -1,4 +1,4 @@
-import { render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import FieldError from "../src/components/forms/FieldError";
 
 describe("FieldError", () => {
@@ -8,7 +8,7 @@ describe("FieldError", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-it("renders a labelled error without making it a focus target", () => {
+  it("renders a labelled error without making it a focus target", () => {
     render(
       <FieldError
         id="example-error"
@@ -25,4 +25,3 @@ it("renders a labelled error without making it a focus target", () => {
     expect(error).not.toHaveFocus();
   });
 });
-

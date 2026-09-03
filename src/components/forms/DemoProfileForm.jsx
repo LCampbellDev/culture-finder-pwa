@@ -1,6 +1,5 @@
 "use client";
 
-  
 import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 import { useEffect, useRef, useState } from "react";
@@ -20,13 +19,12 @@ export default function DemoProfileForm({
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const usernameInputRef = useRef(null);
-  
+
   useEffect(() => {
     if (usernameError) {
       usernameInputRef.current?.focus();
     }
   }, [usernameError]);
-
 
   async function handleSubmit(event) {
     event.preventDefault();

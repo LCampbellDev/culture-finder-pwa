@@ -72,8 +72,8 @@ describe("CreateWishlistForm", () => {
     expect(error).toHaveTextContent(
       "Error: Wishlist name must be 255 characters or fewer",
     );
-    expect(input).toHaveFocus();  
-  });                      
+    expect(input).toHaveFocus();
+  });
 
   it("rejects unsupported characters", async () => {
     const user = userEvent.setup();

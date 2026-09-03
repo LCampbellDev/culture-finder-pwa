@@ -69,10 +69,8 @@ describe("DemoProfileForm", () => {
     );
 
     expect(
-    screen.getByText(/demo username must be 50 characters or fewer/i),
-    ).toHaveTextContent(
-    "Error: Demo username must be 50 characters or fewer",
-    );  
+      screen.getByText(/demo username must be 50 characters or fewer/i),
+    ).toHaveTextContent("Error: Demo username must be 50 characters or fewer");
 
     expect(onProfileSubmit).not.toHaveBeenCalled();
   });
@@ -102,9 +100,7 @@ describe("DemoProfileForm", () => {
 
     expect(
       screen.getByText(/demo username contains unsupported characters/i),
-      ).toHaveTextContent(
-      "Error: Demo username contains unsupported characters",
-    );
+    ).toHaveTextContent("Error: Demo username contains unsupported characters");
 
     expect(onProfileSubmit).not.toHaveBeenCalled();
   });

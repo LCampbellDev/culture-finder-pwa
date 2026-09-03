@@ -19,11 +19,11 @@ export default function SearchForm({ onSearch, isLoading = false }) {
 
   const cityInputRef = useRef(null);
 
-    useEffect(() => {
-      if (cityError) {
-        cityInputRef.current?.focus();
-      }
-    }, [cityError]);
+  useEffect(() => {
+    if (cityError) {
+      cityInputRef.current?.focus();
+    }
+  }, [cityError]);
 
   async function handleSubmit(event) {
     event.preventDefault();
