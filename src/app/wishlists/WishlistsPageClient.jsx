@@ -9,6 +9,7 @@ import PageHeader from "../../components/ui/PageHeader";
 import { useDemoProfile } from "../../context/DemoProfileContext";
 import { createWishlist, getUserWishlists } from "../../lib/api/wishlists";
 import styles from "./WishlistsPageClient.module.css";
+import PageError from "../../components/ui/PageError";
 
 export default function WishlistsPageClient() {
   const { profile, isProfileReady } = useDemoProfile();
@@ -151,11 +152,7 @@ export default function WishlistsPageClient() {
               )}
             </div>
 
-            {creationError && (
-              <p className={feedbackStyles.error} role="alert">
-                {creationError}
-              </p>
-            )}
+            <PageError message={creationError} />
           </section>
 
           <section
@@ -174,11 +171,7 @@ export default function WishlistsPageClient() {
               </div>
             )}
 
-            {!isLoadingWishlists && loadError && (
-              <p className={feedbackStyles.error} role="alert">
-                {loadError}
-              </p>
-            )}
+            {!isLoadingWishlists && <PageError message={loadError} />}
 
             {!isLoadingWishlists && !loadError && (
               <WishlistList wishlists={wishlists} />

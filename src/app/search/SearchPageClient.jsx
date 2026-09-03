@@ -6,6 +6,7 @@ import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
 import { searchEvents } from "../../lib/api/events";
 import feedbackStyles from "../../components/ui/Feedback.module.css";
+import PageError from "../../components/ui/PageError";
 
 export default function SearchPageClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,11 +62,7 @@ export default function SearchPageClient() {
         {!isLoading && resultMessage && <p>{resultMessage}</p>}
       </div>
 
-      {errorMessage && (
-        <p className={feedbackStyles.error} role="alert">
-          {errorMessage}
-        </p>
-      )}
+      <PageError message={errorMessage} />
 
       <EventList events={events} />
     </>

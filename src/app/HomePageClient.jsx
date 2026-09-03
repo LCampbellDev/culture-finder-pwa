@@ -7,6 +7,7 @@ import PageHeader from "../components/ui/PageHeader";
 import { useDemoProfile } from "../context/DemoProfileContext";
 import { createOrContinueDemoProfile } from "../lib/api/users";
 import pageStyles from "./HomePageClient.module.css";
+import PageError from "../components/ui/PageError";
 
 export default function HomePageClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +47,7 @@ export default function HomePageClient() {
         className={pageStyles.demoSection}
         aria-labelledby="demo-profile-heading"
       >
-        <h2 id="demo-profile-heading" tabIndex={0}>
+        <h2 id="demo-profile-heading">
           Create a demo profile
         </h2>
 
@@ -101,11 +102,7 @@ export default function HomePageClient() {
           </>
         )}
 
-        {errorMessage && (
-          <p className={feedbackStyles.error} role="alert">
-            {errorMessage}
-          </p>
-        )}
+        <PageError message={errorMessage} />
       </section>
     </>
   );
