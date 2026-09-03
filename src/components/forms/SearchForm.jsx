@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 
 const categories = [
@@ -15,7 +16,14 @@ export default function SearchForm({ onSearch, isLoading = false }) {
   const [city, setCity] = useState("");
   const [category, setCategory] = useState("");
   const [cityError, setCityError] = useState("");
+
   const cityInputRef = useRef(null);
+
+  useEffect(() => {
+    if (cityError) {
+      cityInputRef.current?.focus();
+    }
+  }, [cityError]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -24,7 +32,6 @@ export default function SearchForm({ onSearch, isLoading = false }) {
 
     if (!trimmedCity) {
       setCityError("Enter a city or location");
-      cityInputRef.current?.focus();
       return;
     }
 
@@ -49,7 +56,6 @@ export default function SearchForm({ onSearch, isLoading = false }) {
       aria-label="Event search"
       noValidate
     >
-      {" "}
       <div className={styles.field}>
         <label className={styles.label} htmlFor="city">
           City or location
@@ -60,9 +66,11 @@ export default function SearchForm({ onSearch, isLoading = false }) {
           Enter a city in Great Britain
         </p>
 
+        <FieldError id="city-error" message={cityError} />
+
         <input
-          className={styles.control}
           ref={cityInputRef}
+          className={styles.control}
           id="city"
           name="city"
           type="text"
@@ -73,12 +81,6 @@ export default function SearchForm({ onSearch, isLoading = false }) {
           required
           autoComplete="address-level2"
         />
-
-        {cityError && (
-          <p className={styles.error} id="city-error" role="alert">
-            {cityError}
-          </p>
-        )}
       </div>
       <div className={styles.field}>
         <label className={styles.label} htmlFor="category">

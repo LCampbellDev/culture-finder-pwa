@@ -3,7 +3,7 @@ import styles from "./AppShell.module.css";
 
 export default function Navigation() {
   return (
-    <nav aria-label="Main navigation">
+    <nav aria-label="Main">
       <ul className={styles.navList}>
         <li>
           <Link href="/">Home</Link>

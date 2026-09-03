@@ -22,7 +22,7 @@ describe("CreateWishlistForm", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows an error and focuses the error when the name is empty", async () => {
+  it("shows an error and focuses the empty wishlist-name field", async () => {
     const user = userEvent.setup();
 
     render(<CreateWishlistForm onWishlistSubmit={jest.fn()} />);
@@ -37,14 +37,14 @@ describe("CreateWishlistForm", () => {
       }),
     );
 
-    const error = screen.getByRole("alert");
+    const error = screen.getByText(/enter a wishlist name/i);
 
-    expect(error).toHaveTextContent("Enter a wishlist name");
-    expect(error).toHaveFocus();
+    expect(error).toHaveTextContent("Error: Enter a wishlist name");
     expect(input).toHaveAttribute("aria-invalid", "true");
-
-    await user.tab();
-
+    expect(input).toHaveAttribute(
+      "aria-describedby",
+      "wishlist-title-hint wishlist-title-error",
+    );
     expect(input).toHaveFocus();
   });
 
@@ -65,11 +65,14 @@ describe("CreateWishlistForm", () => {
 
     await user.click(screen.getByRole("button", { name: /create wishlist/i }));
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Wishlist name must be 255 characters or fewer",
+    const error = screen.getByText(
+      /wishlist name must be 255 characters or fewer/i,
     );
 
-    expect(screen.getByRole("alert")).toHaveFocus();
+    expect(error).toHaveTextContent(
+      "Error: Wishlist name must be 255 characters or fewer",
+    );
+    expect(input).toHaveFocus();
   });
 
   it("rejects unsupported characters", async () => {
@@ -81,19 +84,22 @@ describe("CreateWishlistForm", () => {
       name: /wishlist name/i,
     });
 
-    fireEvent.change(input, {
-      target: {
-        value: "Music\u0007events",
-      },
-    });
+    await user.type(input, "Music\u0007events");
 
-    await user.click(screen.getByRole("button", { name: /create wishlist/i }));
-
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Wishlist name contains unsupported characters",
+    await user.click(
+      screen.getByRole("button", {
+        name: /create wishlist/i,
+      }),
     );
 
-    expect(screen.getByRole("alert")).toHaveFocus();
+    const error = screen.getByText(
+      /wishlist name contains unsupported characters/i,
+    );
+
+    expect(error).toHaveTextContent(
+      "Error: Wishlist name contains unsupported characters",
+    );
+    expect(input).toHaveFocus();
   });
 
   it("submits a trimmed wishlist name", async () => {

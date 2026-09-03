@@ -34,11 +34,14 @@ describe("DemoProfileForm", () => {
       name: /demo username/i,
     });
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Enter a demo username",
-    );
+    const error = screen.getByText(/enter a demo username/i);
 
+    expect(error).toHaveTextContent("Error: Enter a demo username");
     expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input).toHaveAttribute(
+      "aria-describedby",
+      "demo-username-hint demo-username-error",
+    );
     expect(input).toHaveFocus();
     expect(onProfileSubmit).not.toHaveBeenCalled();
   });
@@ -65,9 +68,9 @@ describe("DemoProfileForm", () => {
       }),
     );
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Demo username must be 50 characters or fewer",
-    );
+    expect(
+      screen.getByText(/demo username must be 50 characters or fewer/i),
+    ).toHaveTextContent("Error: Demo username must be 50 characters or fewer");
 
     expect(onProfileSubmit).not.toHaveBeenCalled();
   });
@@ -95,9 +98,9 @@ describe("DemoProfileForm", () => {
       }),
     );
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Demo username contains unsupported characters",
-    );
+    expect(
+      screen.getByText(/demo username contains unsupported characters/i),
+    ).toHaveTextContent("Error: Demo username contains unsupported characters");
 
     expect(onProfileSubmit).not.toHaveBeenCalled();
   });

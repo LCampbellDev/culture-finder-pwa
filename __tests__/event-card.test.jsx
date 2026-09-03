@@ -30,9 +30,8 @@ describe("EventCard", () => {
     expect(screen.getByRole("article")).toBeInTheDocument();
 
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveAttribute("tabindex", "0");
-
-    expect(details).toHaveAttribute("tabindex", "0");
+    expect(heading).not.toHaveAttribute("tabindex");
+    expect(details).not.toHaveAttribute("tabindex");
 
     expect(screen.getByText("Music")).toBeInTheDocument();
     expect(screen.getByText("14 August 2026")).toBeInTheDocument();
@@ -54,9 +53,16 @@ describe("EventCard", () => {
       name: /view and book tickets for Leeds Jazz Evening on Ticketmaster/i,
     });
 
+    const eventContext = screen.getByText(
+      "for Leeds Jazz Evening on Ticketmaster",
+    );
+
     expect(link).toHaveAttribute("href", "https://example.com/leeds-jazz");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    expect(eventContext).toHaveClass("visually-hidden");
+    expect(link).toHaveTextContent("View and book tickets");
+    expect(link).toHaveTextContent("Opens in a new tab");
   });
 
   it("handles missing event information safely", () => {

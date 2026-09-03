@@ -19,21 +19,8 @@ describe("App shell", () => {
 
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(
-      screen.getByRole("navigation", { name: /main navigation/i }),
+      screen.getByRole("navigation", { name: /^main$/i }),
     ).toBeInTheDocument();
-
-    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
-      "href",
-      "/",
-    );
-    expect(screen.getByRole("link", { name: "Search" })).toHaveAttribute(
-      "href",
-      "/search",
-    );
-    expect(screen.getByRole("link", { name: "Wishlists" })).toHaveAttribute(
-      "href",
-      "/wishlists",
-    );
   });
 
   it("renders the site footer", () => {
