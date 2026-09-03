@@ -47,9 +47,7 @@ export default function HomePageClient() {
         className={pageStyles.demoSection}
         aria-labelledby="demo-profile-heading"
       >
-        <h2 id="demo-profile-heading">
-          Create a demo profile
-        </h2>
+        <h2 id="demo-profile-heading">Create a demo profile</h2>
 
         <p>
           Choose a demo username to create wishlists and save events. Your

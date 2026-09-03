@@ -34,7 +34,7 @@ describe("HomePageClient demo profile", () => {
     });
 
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveAttribute("tabindex", "0");
+    expect(heading).not.toHaveAttribute("tabindex");
 
     expect(
       screen.getByText(/does not use passwords, authentication/i),
