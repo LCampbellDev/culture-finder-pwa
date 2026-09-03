@@ -21,25 +21,34 @@ describe("SearchForm", () => {
     ).toBeEnabled();
   });
 
-  it("shows an error and focuses the city field when it is empty", async () => {
-    const user = userEvent.setup();
-    const onSearch = jest.fn();
+  it("shows an error and focuses the empty city field", async () => {
+  const user = userEvent.setup();
+  const onSearch = jest.fn();
 
-    render(<SearchForm onSearch={onSearch} />);
+  render(<SearchForm onSearch={onSearch} />);
 
-    await user.click(screen.getByRole("button", { name: /search events/i }));
+  await user.click(screen.getByRole("button", { name: /search events/i }));
 
-    const cityInput = screen.getByRole("textbox", {
-      name: /city or location/i,
-    });
+  const cityInput = screen.getByRole("textbox", {
+    name: /city or location/i,
+  });
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Enter a city or location",
-    );
+  const error = screen.getByText(/enter a city or location/i);
 
+    expect(error).toHaveTextContent("Error: Enter a city or location");
     expect(cityInput).toHaveAttribute("aria-invalid", "true");
+    expect(cityInput).toHaveAttribute(
+      "aria-describedby",
+      "city-hint city-error",
+    );
     expect(cityInput).toHaveFocus();
     expect(onSearch).not.toHaveBeenCalled();
+
+    await user.tab();
+
+    expect(
+      screen.getByRole("combobox", { name: /category/i }),
+    ).toHaveFocus();
   });
 
   it("submits the trimmed city and selected category", async () => {

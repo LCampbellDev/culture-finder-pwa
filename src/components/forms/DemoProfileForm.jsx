@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+  
+import FieldError from "./FieldError";
 import styles from "./Form.module.css";
+import { useEffect, useRef, useState } from "react";
 
 const MAX_USERNAME_LENGTH = 50;
 
@@ -18,6 +20,13 @@ export default function DemoProfileForm({
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const usernameInputRef = useRef(null);
+  
+  useEffect(() => {
+    if (usernameError) {
+      usernameInputRef.current?.focus();
+    }
+  }, [usernameError]);
+
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -45,7 +54,6 @@ export default function DemoProfileForm({
 
   function showError(message) {
     setUsernameError(message);
-    usernameInputRef.current?.focus();
   }
 
   function handleUsernameChange(event) {
@@ -74,9 +82,11 @@ export default function DemoProfileForm({
           characters
         </p>
 
+        <FieldError id="demo-username-error" message={usernameError} />
+
         <input
-          className={styles.control}
           ref={usernameInputRef}
+          className={styles.control}
           id="demo-username"
           name="username"
           type="text"
@@ -92,12 +102,6 @@ export default function DemoProfileForm({
           }
           aria-invalid={usernameError ? "true" : undefined}
         />
-
-        {usernameError && (
-          <p className={styles.error} id="demo-username-error" role="alert">
-            {usernameError}
-          </p>
-        )}
       </div>
 
       <button className={styles.button} type="submit" disabled={isLoading}>

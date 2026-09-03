@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 
 const MAX_WISHLIST_TITLE_LENGTH = 255;
@@ -15,15 +16,13 @@ export default function CreateWishlistForm({
   onWishlistSubmit,
   isLoading = false,
 }) {
+  const wishlistTitleInputRef = useRef(null);
   const [wishlistTitle, setWishlistTitle] = useState("");
   const [wishlistTitleError, setWishlistTitleError] = useState("");
 
-  const wishlistTitleInputRef = useRef(null);
-  const wishlistTitleErrorRef = useRef(null);
-
   useEffect(() => {
     if (wishlistTitleError) {
-      wishlistTitleErrorRef.current?.focus();
+      wishlistTitleInputRef.current?.focus();
     }
   }, [wishlistTitleError]);
 
@@ -85,21 +84,11 @@ export default function CreateWishlistForm({
           Use a descriptive name, up to 255 characters
         </p>
 
-        {wishlistTitleError && (
-          <p
-            className={styles.error}
-            id="wishlist-title-error"
-            role="alert"
-            tabIndex="-1"
-            ref={wishlistTitleErrorRef}
-          >
-            <strong>Error:</strong> {wishlistTitleError}
-          </p>
-        )}
+        <FieldError id="wishlist-title-error" message={wishlistTitleError} />
 
         <input
-          className={styles.control}
           ref={wishlistTitleInputRef}
+          className={styles.control}
           id="wishlist-title"
           name="wishlistTitle"
           type="text"
