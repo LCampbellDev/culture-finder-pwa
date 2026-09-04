@@ -11,9 +11,7 @@ export default function EventList({ events, renderActions }) {
       <ul className={styles.list}>
         {events.map((event) => (
           <li key={event.event_id ?? event.ticketmaster_event_id}>
-            <EventCard event={event} >
-              {renderActions?.(event)}
-            </EventCard>
+            <EventCard event={event}>{renderActions?.(event)}</EventCard>
           </li>
         ))}
       </ul>

@@ -51,7 +51,7 @@ describe("EventCard", () => {
       <EventCard event={completeEvent}>
         <button type="button">Save to wishlist</button>
       </EventCard>,
-  );
+    );
 
     expect(
       screen.getByRole("button", {

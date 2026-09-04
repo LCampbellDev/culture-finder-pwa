@@ -51,24 +51,24 @@ describe("EventList", () => {
   });
 
   it("renders actions for each event", () => {
-  const renderActions = jest.fn((event) => (
-    <button type="button">Save {event.event_name}</button>
-  ));
+    const renderActions = jest.fn((event) => (
+      <button type="button">Save {event.event_name}</button>
+    ));
 
-  render(<EventList events={events} renderActions={renderActions} />);
+    render(<EventList events={events} renderActions={renderActions} />);
 
-  expect(renderActions).toHaveBeenCalledTimes(2);
+    expect(renderActions).toHaveBeenCalledTimes(2);
 
-  expect(
-    screen.getByRole("button", {
-      name: "Save Leeds Jazz Evening",
-    }),
-  ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Save Leeds Jazz Evening",
+      }),
+    ).toBeInTheDocument();
 
-  expect(
-    screen.getByRole("button", {
-      name: "Save Leeds Film Festival",
-    }),
-  ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Save Leeds Film Festival",
+      }),
+    ).toBeInTheDocument();
   });
 });
