@@ -46,6 +46,20 @@ describe("EventCard", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders supplied event actions", () => {
+    render(
+      <EventCard event={completeEvent}>
+        <button type="button">Save to wishlist</button>
+      </EventCard>,
+    );
+
+    expect(
+      screen.getByRole("button", {
+        name: /save to wishlist/i,
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("renders a safe external event link", () => {
     render(<EventCard event={completeEvent} />);
 
