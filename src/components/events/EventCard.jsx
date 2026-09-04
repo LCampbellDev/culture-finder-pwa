@@ -106,7 +106,7 @@ function hasAccessibilityInformation(value) {
   );
 }
 
-export default function EventCard({ event }) {
+export default function EventCard({ event, children }) {
   const eventName =
     typeof event.event_name === "string" && event.event_name.trim()
       ? event.event_name
@@ -171,6 +171,7 @@ export default function EventCard({ event }) {
           <span className={styles.newTabHint}>Opens in a new tab</span>
         </a>
       )}
+      {children}
     </article>
   );
 }
