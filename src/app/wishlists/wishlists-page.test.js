@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import WishlistsPageClient from "./WishlistsPageClient";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { createWishlist, getUserWishlists } from "../../lib/api/wishlists";
+import { createWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
 
 jest.mock("../../context/DemoProfileContext", () => ({
   useDemoProfile: jest.fn(),
 }));
 
-jest.mock("../../lib/api/wishlists", () => ({
+jest.mock("../../lib/api/wishlists-api", () => ({
   createWishlist: jest.fn(),
   getUserWishlists: jest.fn(),
 }));

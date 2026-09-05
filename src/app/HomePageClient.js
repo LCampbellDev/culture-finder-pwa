@@ -5,7 +5,7 @@ import DemoProfileForm from "../components/forms/DemoProfileForm";
 import feedbackStyles from "../components/ui/Feedback.module.css";
 import PageHeader from "../components/ui/PageHeader";
 import { useDemoProfile } from "../context/DemoProfileContext";
-import { createOrContinueDemoProfile } from "../lib/api/users";
+import { createOrContinueDemoProfile } from "../lib/api/users-api";
 import pageStyles from "./HomePageClient.module.css";
 import PageError from "../components/ui/PageError";
 

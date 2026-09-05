@@ -1,4 +1,4 @@
-import { createOrContinueDemoProfile } from "./users";
+import { createOrContinueDemoProfile } from "./users-api";
 
 const originalApiUrl = process.env.NEXT_PUBLIC_API_URL;
 

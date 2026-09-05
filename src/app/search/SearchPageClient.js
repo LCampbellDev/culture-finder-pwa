@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import EventList from "../../components/events/EventList";
 import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
-import { searchEvents } from "../../lib/api/events";
+import { searchEvents } from "../../lib/api/events-api";
 import feedbackStyles from "../../components/ui/Feedback.module.css";
 import PageError from "../../components/ui/PageError";
 import SaveEventForm from "../../components/forms/SaveEventForm";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists";
+import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
 
 export default function SearchPageClient() {
   const { profile, isProfileReady } = useDemoProfile();

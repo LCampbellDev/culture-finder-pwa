@@ -5,9 +5,9 @@ import {
   DEMO_PROFILE_STORAGE_KEY,
   DemoProfileProvider,
 } from "../context/DemoProfileContext";
-import { createOrContinueDemoProfile } from "../lib/api/users";
+import { createOrContinueDemoProfile } from "../lib/api/users-api";
 
-jest.mock("../lib/api/users", () => ({
+jest.mock("../lib/api/users-api", () => ({
   createOrContinueDemoProfile: jest.fn(),
 }));
 

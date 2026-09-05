@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { WISHLIST_STATUSES } from "../../lib/api/wishlists";
+import { WISHLIST_STATUSES } from "../../lib/api/wishlists-api";
 
 export default function UpdateEventStatusForm({
   wishlistEventId,

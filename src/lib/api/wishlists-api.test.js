@@ -7,7 +7,7 @@ import {
   getWishlistEvents,
   removeEventFromWishlist,
   updateWishlistEventStatus,
-} from "./wishlists";
+} from "./wishlists-api";
 
 function createJsonResponse(data, { ok = true, status = 200 } = {}) {
   return {

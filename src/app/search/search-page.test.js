@@ -1,11 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SearchPageClient from "./SearchPageClient";
-import { searchEvents } from "../../lib/api/events";
+import { searchEvents } from "../../lib/api/events-api";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists";
+import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
 
-jest.mock("../../lib/api/events", () => ({
+jest.mock("../../lib/api/events-api", () => ({
   searchEvents: jest.fn(),
 }));
 
@@ -13,7 +13,7 @@ jest.mock("../../context/DemoProfileContext", () => ({
   useDemoProfile: jest.fn(),
 }));
 
-jest.mock("../../lib/api/wishlists", () => ({
+jest.mock("../../lib/api/wishlists-api", () => ({
   addEventToWishlist: jest.fn(),
   getUserWishlists: jest.fn(),
 }));

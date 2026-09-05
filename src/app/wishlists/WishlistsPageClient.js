@@ -7,7 +7,7 @@ import WishlistList from "../../components/wishlists/WishlistList";
 import feedbackStyles from "../../components/ui/Feedback.module.css";
 import PageHeader from "../../components/ui/PageHeader";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { createWishlist, getUserWishlists } from "../../lib/api/wishlists";
+import { createWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
 import styles from "./WishlistsPageClient.module.css";
 import PageError from "../../components/ui/PageError";
 

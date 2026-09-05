@@ -5,13 +5,13 @@ import {
   getUserWishlists,
   getWishlistEvents,
   updateWishlistEventStatus,
-} from "../../../lib/api/wishlists";
+} from "../../../lib/api/wishlists-api";
 
 jest.mock("../../../context/DemoProfileContext", () => ({
   useDemoProfile: jest.fn(),
 }));
 
-jest.mock("../../../lib/api/wishlists", () => ({
+jest.mock("../../../lib/api/wishlists-api", () => ({
   getUserWishlists: jest.fn(),
   getWishlistEvents: jest.fn(),
   updateWishlistEventStatus: jest.fn(),

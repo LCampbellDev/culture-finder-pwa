@@ -7,7 +7,7 @@ import {
   getUserWishlists,
   getWishlistEvents,
   updateWishlistEventStatus,
-} from "../../../lib/api/wishlists";
+} from "../../../lib/api/wishlists-api";
 import PageHeader from "../../../components/ui/PageHeader";
 import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusForm";
 
