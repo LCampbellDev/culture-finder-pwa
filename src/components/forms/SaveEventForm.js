@@ -74,19 +74,14 @@ export default function SaveEventForm({
           name="wishlistId"
           value={selectedWishlistId}
           onChange={handleWishlistChange}
-          aria-describedby={
-            wishlistError ? `${hintId} ${errorId}` : hintId
-          }
+          aria-describedby={wishlistError ? `${hintId} ${errorId}` : hintId}
           aria-invalid={wishlistError ? "true" : undefined}
           required
         >
           <option value="">Choose a wishlist</option>
 
           {wishlists.map((wishlist) => (
-            <option
-              key={wishlist.wishlist_id}
-              value={wishlist.wishlist_id}
-            >
+            <option key={wishlist.wishlist_id} value={wishlist.wishlist_id}>
               {wishlist.wishlist_title}
             </option>
           ))}
@@ -102,14 +97,10 @@ export default function SaveEventForm({
             ? `Saving to wishlist: ${eventName}`
             : `Save to wishlist: ${eventName}`
         }
-              >
+      >
         {isSaving ? "Saving…" : "Save to wishlist"}
       </button>
-      <div
-        className={feedbackStyles.feedback}
-        role="status"
-        aria-atomic="true"
-      >
+      <div className={feedbackStyles.feedback} role="status" aria-atomic="true">
         {successMessage && (
           <p className={feedbackStyles.success}>{successMessage}</p>
         )}
