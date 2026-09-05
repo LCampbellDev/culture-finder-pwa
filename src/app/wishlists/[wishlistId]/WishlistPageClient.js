@@ -6,8 +6,10 @@ import { useDemoProfile } from "../../../context/DemoProfileContext";
 import {
   getUserWishlists,
   getWishlistEvents,
+  updateWishlistEventStatus,
 } from "../../../lib/api/wishlists";
 import PageHeader from "../../../components/ui/PageHeader";
+import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusForm";
 
 export default function WishlistPageClient({ wishlistId }) {
   const [events, setEvents] = useState([]);
@@ -15,8 +17,16 @@ export default function WishlistPageClient({ wishlistId }) {
   const [errorMessage, setErrorMessage] = useState("");
   const { profile, isProfileReady } = useDemoProfile();
   const [wishlistTitle, setWishlistTitle] = useState("");
+  const [updatingEventId, setUpdatingEventId] = useState(null);
+  const [statusErrorMessage, setStatusErrorMessage] = useState("");
+  const [statusFeedbackEventId, setStatusFeedbackEventId] = useState(null);
+  const [statusSuccessMessage, setStatusSuccessMessage] = useState("");
 
   useEffect(() => {
+    if (!isProfileReady || !profile) {
+      return;
+    }
+
     let isCancelled = false;
 
     async function loadWishlistEvents() {
@@ -55,6 +65,31 @@ export default function WishlistPageClient({ wishlistId }) {
     };
   }, [wishlistId, isProfileReady, profile]);
 
+  async function handleStatusUpdate(wishlistEventId, newStatus) {
+    setUpdatingEventId(wishlistEventId);
+    setStatusErrorMessage("");
+    setStatusSuccessMessage("");
+    setStatusFeedbackEventId(wishlistEventId);
+
+    try {
+      await updateWishlistEventStatus(wishlistEventId, newStatus);
+
+      setEvents((currentEvents) =>
+        currentEvents.map((event) =>
+          event.wishlist_event_id === wishlistEventId
+            ? { ...event, status: newStatus }
+            : event,
+        ),
+      );
+
+      setStatusSuccessMessage(`Status updated to ${newStatus}`);
+    } catch (error) {
+      setStatusErrorMessage(error.message);
+    } finally {
+      setUpdatingEventId(null);
+    }
+  }
+
   return (
     <>
       <PageHeader
@@ -68,7 +103,28 @@ export default function WishlistPageClient({ wishlistId }) {
         <p>This wishlist does not have any saved events yet</p>
       )}
       {!isLoading && !errorMessage && events.length > 0 && (
-        <EventList events={events} />
+        <EventList
+          events={events}
+          renderActions={(event) => (
+            <UpdateEventStatusForm
+              wishlistEventId={event.wishlist_event_id}
+              eventName={event.event_name}
+              currentStatus={event.status}
+              onStatusUpdate={handleStatusUpdate}
+              isUpdating={updatingEventId === event.wishlist_event_id}
+              errorMessage={
+                statusFeedbackEventId === event.wishlist_event_id
+                  ? statusErrorMessage
+                  : ""
+              }
+              successMessage={
+                statusFeedbackEventId === event.wishlist_event_id
+                  ? statusSuccessMessage
+                  : ""
+              }
+            />
+          )}
+        />
       )}
     </>
   );
