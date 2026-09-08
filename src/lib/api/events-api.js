@@ -20,6 +20,9 @@ export async function searchEvents(city, category) {
 
     const data = await response.json();
 
+    // Validate the response fields this client relies on.
+    // Individual event objects are currently trusted to match the backend contract.
+
     if (
       typeof data.city !== "string" ||
       typeof data.count !== "number" ||
@@ -38,7 +41,10 @@ export async function searchEvents(city, category) {
   }
 }
 
+
 function createSearchUrl(city, category) {
+  // Only input type and a non-empty value are validated here;
+  // location validity is handled by the backend/event API.
   if (typeof city !== "string" || !city.trim()) {
     throw new Error(CITY_REQUIRED_MESSAGE);
   }
@@ -59,6 +65,8 @@ function createSearchUrl(city, category) {
 
   searchUrl.searchParams.set("city", city.trim());
 
+  /* Omit the optional category parameter when no usable value is provided. */
+  /* TODO: Delete .trim().toLowerCase(), when have reviewed value normalisation in SearchForm */
   if (typeof category === "string" && category.trim()) {
     searchUrl.searchParams.set("category", category.trim().toLowerCase());
   }
