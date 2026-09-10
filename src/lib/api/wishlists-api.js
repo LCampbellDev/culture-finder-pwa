@@ -59,11 +59,8 @@ export async function createWishlist(userId, wishlistTitle) {
   }
 
   const trimmedTitle = wishlistTitle.trim();
-  
-  const url = createApiUrl(
-    "/wishlists",
-    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
-  );
+
+  const url = createApiUrl("/wishlists", WISHLIST_CONFIGURATION_ERROR_MESSAGE);
 
   const data = await requestJson(
     url,
@@ -102,6 +99,7 @@ export async function getWishlistEvents(
     ),
   );
 
+  // Add optional filtering and sorting parameters only when requested
   if (typeof category === "string" && category.trim()) {
     url.searchParams.set("category", category.trim().toLowerCase());
   }
@@ -166,8 +164,8 @@ export async function updateWishlistEventStatus(wishlistEventId, status) {
   }
 
   const url = createApiUrl(
-  "/update-event-status",
-  WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+    "/update-event-status",
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
   );
 
   const data = await requestJson(
@@ -250,20 +248,6 @@ export async function deleteWishlist(userId, wishlistId) {
   }
 
   return data;
-}
-
-async function requestJson(url, options, errorMessage) {
-  try {
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      throw new Error(errorMessage);
-    }
-
-    return await response.json();
-  } catch {
-    throw new Error(errorMessage);
-  }
 }
 
 function requirePositiveInteger(value, message) {

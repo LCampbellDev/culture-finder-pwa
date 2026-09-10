@@ -1,7 +1,8 @@
 import { createApiUrl, createJsonHeaders, requestJson } from "./api-client";
 
 const USERNAME_REQUIRED_MESSAGE = "Enter a demo username";
-const USER_PROFILE_CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
+const USER_PROFILE_CONFIGURATION_ERROR_MESSAGE =
+  "Demo profiles are not available right now";
 const PROFILE_ERROR_MESSAGE =
   "We could not create or continue with the demo profile. Check your connection and try again";
 
@@ -20,6 +21,7 @@ export async function createOrContinueDemoProfile(username) {
     PROFILE_ERROR_MESSAGE,
   );
 
+  // Validate the API response before mapping it to the frontend profile shape
   if (
     typeof data.user_id !== "number" ||
     typeof data.username !== "string" ||
@@ -39,8 +41,5 @@ function createProfileUrl(username) {
     throw new Error(USERNAME_REQUIRED_MESSAGE);
   }
 
-  return createApiUrl(
-    "/users",
-    USER_PROFILE_CONFIGURATION_ERROR_MESSAGE,
-  );
+  return createApiUrl("/users", USER_PROFILE_CONFIGURATION_ERROR_MESSAGE);
 }

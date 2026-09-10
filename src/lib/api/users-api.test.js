@@ -33,7 +33,7 @@ describe("demo profile API", () => {
     expect(result).toEqual({
       userId: 7,
       username: "demo-reviewer",
-  });
+    });
 
     // Assert
     expect(fetch).toHaveBeenCalledWith(

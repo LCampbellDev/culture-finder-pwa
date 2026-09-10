@@ -1,14 +1,14 @@
+// Shared HTTP request and JSON response handling
 /*
-- URL construction
-- JSON parsing
-- HTTP request mechanics
-- generic request failure handling
+- API URL construction
+- Request and error handling
+- JSON header creation
 */
 
-// URL construction helper
+// Build an API URL and handle missing or invalid API configuration
 
 export function createApiUrl(path, configurationErrorMessage) {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   if (!apiUrl) {
     throw new Error(configurationErrorMessage);
@@ -21,9 +21,7 @@ export function createApiUrl(path, configurationErrorMessage) {
   }
 }
 
-
-
-// JSON parsing helper
+// Make an HTTP request, check the response and parse the JSON body
 
 export async function requestJson(url, options, errorMessage) {
   try {
@@ -39,7 +37,8 @@ export async function requestJson(url, options, errorMessage) {
   }
 }
 
-// creatE Json headers helper
+// Create standard headers for JSON API requests
+
 export function createJsonHeaders({ includeContentType = false } = {}) {
   const headers = {
     Accept: "application/json",
@@ -51,7 +50,3 @@ export function createJsonHeaders({ includeContentType = false } = {}) {
 
   return headers;
 }
-
-// HTTP request mechanics helper
-
-// generic request failure handling

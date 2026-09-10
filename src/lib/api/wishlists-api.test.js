@@ -21,7 +21,7 @@ describe("wishlist API client", () => {
   });
 
   it("exports the statuses accepted by the backend", () => {
-    // Assert 
+    // Assert
     expect(WISHLIST_STATUSES).toEqual(["Wishlist", "Booked", "Not Interested"]);
   });
 
@@ -107,12 +107,12 @@ describe("wishlist API client", () => {
     // Assert
     expect(result).toEqual(events);
 
-      expect(fetch).toHaveBeenCalledWith(
-        "http://127.0.0.1:5000/wishlists/5/events?category=music&sort_by_date=true",
-        expect.objectContaining({
-          headers: {
-            Accept: "application/json",
-          },
+    expect(fetch).toHaveBeenCalledWith(
+      "http://127.0.0.1:5000/wishlists/5/events?category=music&sort_by_date=true",
+      expect.objectContaining({
+        headers: {
+          Accept: "application/json",
+        },
         cache: "no-store",
       }),
     );
@@ -126,11 +126,13 @@ describe("wishlist API client", () => {
       event_id: 12,
     };
 
-    fetch.mockResolvedValue(createMockJsonResponse(savedEvent, { status: 201 }));
+    fetch.mockResolvedValue(
+      createMockJsonResponse(savedEvent, { status: 201 }),
+    );
 
-    // Act 
+    // Act
     const result = await addEventToWishlist(5, 12);
-    
+
     // Assert
     expect(result).toEqual(savedEvent);
 
@@ -161,10 +163,10 @@ describe("wishlist API client", () => {
 
     // Act
     const result = await updateWishlistEventStatus(8, "Booked");
-  
+
     // Assert
-    expect (result).toEqual(updateResult);
-    
+    expect(result).toEqual(updateResult);
+
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/update-event-status",
       expect.objectContaining({
@@ -261,9 +263,7 @@ describe("wishlist API client", () => {
           error: "Database execution error",
           details: "internal database information",
         },
-        { ok: false,
-          status: 500,
-        },
+        { ok: false, status: 500 },
       ),
     );
 
@@ -273,4 +273,3 @@ describe("wishlist API client", () => {
     );
   });
 });
-

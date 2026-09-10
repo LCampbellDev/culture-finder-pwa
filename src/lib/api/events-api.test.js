@@ -26,7 +26,7 @@ describe("searchEvents", () => {
   });
 
   it("requests events using the city and category", async () => {
-    // Arrange 
+    // Arrange
     const apiResponse = {
       city: "Leeds",
       count: 1,
@@ -64,7 +64,7 @@ describe("searchEvents", () => {
   });
 
   it("omits the category when one is not provided", async () => {
-    // Arrange 
+    // Arrange
     // Configure fetch response
     global.fetch.mockResolvedValue({
       ok: true,
@@ -82,7 +82,6 @@ describe("searchEvents", () => {
     const [requestUrl] = global.fetch.mock.calls[0];
     const parsedUrl = new URL(requestUrl);
 
-    
     expect(parsedUrl.searchParams.get("city")).toBe("York");
     expect(parsedUrl.searchParams.has("category")).toBe(false);
   });
