@@ -15,6 +15,7 @@ const wishlists = [
 
 describe("SaveEventForm", () => {
   it("renders the available wishlists", () => {
+    // Arrange
     render(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -23,6 +24,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Assert
     expect(
       screen.getByRole("form", {
         name: /save Leeds Jazz Evening to a wishlist/i,
@@ -49,6 +51,7 @@ describe("SaveEventForm", () => {
   });
 
   it("shows an error and focuses the selector when no wishlist is chosen", async () => {
+    // Arrange
     const user = userEvent.setup();
     const onSave = jest.fn();
 
@@ -60,6 +63,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Act
     await user.click(
       screen.getByRole("button", {
         name: /save to wishlist: Leeds Jazz Evening/i,
@@ -74,6 +78,7 @@ describe("SaveEventForm", () => {
       selector: "p",
     });
 
+    // Assert
     expect(error).toHaveTextContent("Error: Choose a wishlist");
     expect(selector).toHaveAttribute("aria-invalid", "true");
     expect(selector).toHaveFocus();
@@ -81,6 +86,7 @@ describe("SaveEventForm", () => {
   });
 
   it("submits the selected wishlist as a number", async () => {
+    // Arrange
     const user = userEvent.setup();
     const onSave = jest.fn().mockResolvedValue(undefined);
 
@@ -92,6 +98,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Act
     await user.selectOptions(
       screen.getByRole("combobox", {
         name: /wishlist for Leeds Jazz Evening/i,
@@ -105,10 +112,12 @@ describe("SaveEventForm", () => {
       }),
     );
 
+    // Assert
     expect(onSave).toHaveBeenCalledWith(8);
   });
 
   it("disables repeat submission while saving", () => {
+    // Arrange
     render(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -118,6 +127,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Assert
     expect(
       screen.getByRole("button", {
         name: /saving to wishlist: Leeds Jazz Evening/i,
@@ -126,6 +136,7 @@ describe("SaveEventForm", () => {
   });
 
   it("announces a successful save without moving focus", () => {
+    // Arrange 
     const { rerender } = render(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -140,6 +151,7 @@ describe("SaveEventForm", () => {
 
     button.focus();
 
+    // Act
     rerender(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -149,6 +161,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Assert
     expect(screen.getByRole("status")).toHaveTextContent(
       "Leeds Jazz Evening saved to Summer events",
     );
@@ -156,6 +169,7 @@ describe("SaveEventForm", () => {
   });
 
   it("announces a save failure without moving focus", () => {
+    // Arrange
     const { rerender } = render(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -170,6 +184,7 @@ describe("SaveEventForm", () => {
 
     button.focus();
 
+    // Act
     rerender(
       <SaveEventForm
         eventName="Leeds Jazz Evening"
@@ -179,6 +194,7 @@ describe("SaveEventForm", () => {
       />,
     );
 
+    // Assert
     expect(screen.getByRole("alert")).toHaveTextContent(
       "Error: We could not save the event. Try again",
     );

@@ -16,8 +16,10 @@ const wishlists = [
 
 describe("WishlistList", () => {
   it("renders an empty state when there are no wishlists", () => {
+    // Arrange
     render(<WishlistList wishlists={[]} />);
 
+    // Assert
     expect(
       screen.getByText(/you do not have any wishlists yet/i),
     ).toBeInTheDocument();
@@ -26,14 +28,17 @@ describe("WishlistList", () => {
   });
 
   it("handles a missing wishlist collection safely", () => {
+    // Arrange
     render(<WishlistList />);
 
+    // Assert
     expect(
       screen.getByText(/you do not have any wishlists yet/i),
     ).toBeInTheDocument();
   });
 
   it("renders the saved wishlists as a semantic list", () => {
+    // Arrange
     render(<WishlistList wishlists={wishlists} />);
 
     const list = screen.getByRole("list", {
@@ -42,6 +47,7 @@ describe("WishlistList", () => {
 
     const items = within(list).getAllByRole("listitem");
 
+    // Assert
     expect(items).toHaveLength(2);
 
     expect(
@@ -60,6 +66,7 @@ describe("WishlistList", () => {
   });
 
   it("displays long wishlist names without changing their content", () => {
+    // Arrange
     const longTitle = "Accessible theatre and music events ".repeat(6).trim();
 
     render(
@@ -74,6 +81,7 @@ describe("WishlistList", () => {
       />,
     );
 
+    // Assert
     expect(
       screen.getByRole("heading", {
         level: 3,

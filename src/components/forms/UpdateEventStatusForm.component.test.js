@@ -15,7 +15,6 @@ it("displays the current status and available status options", () => {
     />,
   );
 
-  // Act
   const statusSelect = screen.getByLabelText("Status");
 
   // Assert
@@ -68,7 +67,6 @@ it("disables the status controls while updating", () => {
     />,
   );
 
-  // Act
   const statusSelect = screen.getByLabelText("Status");
   const updateButton = screen.getByRole("button", { name: "Updating…" });
 
@@ -91,7 +89,6 @@ it("displays an error message", () => {
     />,
   );
 
-  // Act
   const errorMessage = screen.getByRole("alert");
 
   // Assert
@@ -112,7 +109,6 @@ it("displays a success message", () => {
     />,
   );
 
-  // Act
   const successMessage = screen.getByRole("status");
 
   // Assert

@@ -1,5 +1,7 @@
+import { createApiUrl } from "./api-client";
+
 const CITY_REQUIRED_MESSAGE = "Enter a city or location";
-const CONFIGURATION_ERROR_MESSAGE = "Event search is not available right now";
+const EVENTS_CONFIGURATION_ERROR_MESSAGE = "Event search is not available right now";
 const SEARCH_ERROR_MESSAGE =
   "We could not search for events. Check your connection and try again";
 
@@ -49,19 +51,12 @@ function createSearchUrl(city, category) {
     throw new Error(CITY_REQUIRED_MESSAGE);
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  if (!apiUrl) {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
-  }
-
-  let searchUrl;
-
-  try {
-    searchUrl = new URL("/search-events", apiUrl);
-  } catch {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
-  }
+  const searchUrl = new URL(
+    createApiUrl(
+      "/search-events",
+      EVENTS_CONFIGURATION_ERROR_MESSAGE,
+    ),
+  );
 
   searchUrl.searchParams.set("city", city.trim());
 
@@ -73,3 +68,4 @@ function createSearchUrl(city, category) {
 
   return searchUrl.toString();
 }
+

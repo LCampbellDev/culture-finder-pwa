@@ -8,14 +8,7 @@ import {
   removeEventFromWishlist,
   updateWishlistEventStatus,
 } from "./wishlists-api";
-
-function createJsonResponse(data, { ok = true, status = 200 } = {}) {
-  return {
-    ok,
-    status,
-    json: jest.fn().mockResolvedValue(data),
-  };
-}
+import { createMockJsonResponse } from "./test-helpers/create-mock-json-response";
 
 describe("wishlist API client", () => {
   beforeEach(() => {
@@ -28,10 +21,12 @@ describe("wishlist API client", () => {
   });
 
   it("exports the statuses accepted by the backend", () => {
+    // Assert 
     expect(WISHLIST_STATUSES).toEqual(["Wishlist", "Booked", "Not Interested"]);
   });
 
   it("retrieves the active demo profile wishlists", async () => {
+    // Arrange
     const wishlists = [
       {
         wishlist_id: 4,
@@ -40,10 +35,12 @@ describe("wishlist API client", () => {
       },
     ];
 
-    fetch.mockResolvedValue(createJsonResponse(wishlists));
+    fetch.mockResolvedValue(createMockJsonResponse(wishlists));
 
+    // Act
     await expect(getUserWishlists(2)).resolves.toEqual(wishlists);
 
+    // Assert
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/users/2/wishlists",
       expect.objectContaining({
@@ -56,6 +53,7 @@ describe("wishlist API client", () => {
   });
 
   it("creates a named wishlist with a trimmed title", async () => {
+    // Arrange
     const createdWishlist = {
       wishlist_id: 5,
       user_id: 2,
@@ -63,12 +61,14 @@ describe("wishlist API client", () => {
     };
 
     fetch.mockResolvedValue(
-      createJsonResponse(createdWishlist, { status: 201 }),
+      createMockJsonResponse(createdWishlist, { status: 201 }),
     );
 
-    await expect(createWishlist(2, "  Theatre trips  ")).resolves.toEqual(
-      createdWishlist,
-    );
+    // Act
+    const result = await createWishlist(2, "  Theatre trips  ");
+
+    // Assert
+    expect(result).toEqual(createdWishlist);
 
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/wishlists",
@@ -87,6 +87,7 @@ describe("wishlist API client", () => {
   });
 
   it("retrieves wishlist events with optional filtering and sorting", async () => {
+    // Arrange
     const events = [
       {
         wishlist_event_id: 8,
@@ -95,36 +96,43 @@ describe("wishlist API client", () => {
       },
     ];
 
-    fetch.mockResolvedValue(createJsonResponse(events));
+    fetch.mockResolvedValue(createMockJsonResponse(events));
 
-    await expect(
-      getWishlistEvents(5, {
-        category: "Music",
-        sortByDate: true,
-      }),
-    ).resolves.toEqual(events);
+    // Act
+    const result = await getWishlistEvents(5, {
+      category: "Music",
+      sortByDate: true,
+    });
 
-    expect(fetch).toHaveBeenCalledWith(
-      "http://127.0.0.1:5000/wishlists/5/events?category=music&sort_by_date=true",
-      expect.objectContaining({
-        headers: {
-          Accept: "application/json",
-        },
+    // Assert
+    expect(result).toEqual(events);
+
+      expect(fetch).toHaveBeenCalledWith(
+        "http://127.0.0.1:5000/wishlists/5/events?category=music&sort_by_date=true",
+        expect.objectContaining({
+          headers: {
+            Accept: "application/json",
+          },
         cache: "no-store",
       }),
     );
   });
 
   it("adds one searched event to a wishlist", async () => {
+    // Arrange
     const savedEvent = {
       wishlist_event_id: 8,
       wishlist_id: 5,
       event_id: 12,
     };
 
-    fetch.mockResolvedValue(createJsonResponse(savedEvent, { status: 201 }));
+    fetch.mockResolvedValue(createMockJsonResponse(savedEvent, { status: 201 }));
 
-    await expect(addEventToWishlist(5, 12)).resolves.toEqual(savedEvent);
+    // Act 
+    const result = await addEventToWishlist(5, 12);
+    
+    // Assert
+    expect(result).toEqual(savedEvent);
 
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/wishlists/5/events",
@@ -142,18 +150,21 @@ describe("wishlist API client", () => {
   });
 
   it("updates a saved event to an allowed status", async () => {
+    // Arrange
     const updateResult = {
       message: "Event status updated successfully",
       wishlist_event_id: 8,
       new_status: "Booked",
     };
 
-    fetch.mockResolvedValue(createJsonResponse(updateResult));
+    fetch.mockResolvedValue(createMockJsonResponse(updateResult));
 
-    await expect(updateWishlistEventStatus(8, "Booked")).resolves.toEqual(
-      updateResult,
-    );
-
+    // Act
+    const result = await updateWishlistEventStatus(8, "Booked");
+  
+    // Assert
+    expect (result).toEqual(updateResult);
+    
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/update-event-status",
       expect.objectContaining({
@@ -171,6 +182,7 @@ describe("wishlist API client", () => {
   });
 
   it("rejects an unsupported status before making a request", async () => {
+    // Act & Assert
     await expect(updateWishlistEventStatus(8, "Maybe")).rejects.toThrow(
       /valid event status/i,
     );
@@ -179,6 +191,7 @@ describe("wishlist API client", () => {
   });
 
   it("removes one event from its wishlist", async () => {
+    // Arrange
     const removalResult = {
       message: "Wishlist item deleted successfully",
       user_id: 2,
@@ -186,11 +199,13 @@ describe("wishlist API client", () => {
       wishlist_event_id: 8,
     };
 
-    fetch.mockResolvedValue(createJsonResponse(removalResult));
+    fetch.mockResolvedValue(createMockJsonResponse(removalResult));
 
-    await expect(removeEventFromWishlist(2, 5, 8)).resolves.toEqual(
-      removalResult,
-    );
+    // Act
+    const result = await removeEventFromWishlist(2, 5, 8);
+
+    // Assert
+    expect(result).toEqual(removalResult);
 
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/users/2/wishlists/5/events/8",
@@ -204,16 +219,19 @@ describe("wishlist API client", () => {
   });
 
   it("deletes a wishlist belonging to the demo profile", async () => {
+    // Arrange
     const deletionResult = {
       message: "Wishlist deleted successfully",
       user_id: 2,
       wishlist_id: 5,
     };
 
-    fetch.mockResolvedValue(createJsonResponse(deletionResult));
+    fetch.mockResolvedValue(createMockJsonResponse(deletionResult));
 
+    // Act
     await expect(deleteWishlist(2, 5)).resolves.toEqual(deletionResult);
 
+    // Assert
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/users/2/wishlists/5",
       expect.objectContaining({
@@ -226,29 +244,33 @@ describe("wishlist API client", () => {
   });
 
   it("rejects invalid identifiers before making a request", async () => {
+    // Act & Assert
     await expect(getUserWishlists(0)).rejects.toThrow(/valid demo profile/i);
 
     await expect(addEventToWishlist(5, -1)).rejects.toThrow(/valid event/i);
 
+    // Assert
     expect(fetch).not.toHaveBeenCalled();
   });
 
   it("returns a friendly error when the API request fails", async () => {
+    // Arrange
     fetch.mockResolvedValue(
-      createJsonResponse(
+      createMockJsonResponse(
         {
           error: "Database execution error",
           details: "internal database information",
         },
-        {
-          ok: false,
+        { ok: false,
           status: 500,
         },
       ),
     );
 
+    // Act & Assert
     await expect(getUserWishlists(2)).rejects.toThrow(
       /could not load your wishlists/i,
     );
   });
 });
+

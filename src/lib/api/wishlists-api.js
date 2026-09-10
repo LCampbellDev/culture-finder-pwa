@@ -1,8 +1,10 @@
+import { createApiUrl } from "./api-client";
 // TODO: Consider moving wishlist status values into a separate constants module
 // so they are not coupled to the API client
 export const WISHLIST_STATUSES = ["Wishlist", "Booked", "Not Interested"];
 
-const CONFIGURATION_ERROR_MESSAGE = "Wishlists are not available right now";
+const WISHLIST_CONFIGURATION_ERROR_MESSAGE =
+  "Wishlists are not available right now";
 
 const LOAD_WISHLISTS_ERROR_MESSAGE =
   "We could not load your wishlists. Check your connection and try again";
@@ -28,7 +30,10 @@ const DELETE_WISHLIST_ERROR_MESSAGE =
 export async function getUserWishlists(userId) {
   requirePositiveInteger(userId, "A valid demo profile is required");
 
-  const url = createApiUrl(`/users/${userId}/wishlists`);
+  const url = createApiUrl(
+    `/users/${userId}/wishlists`,
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+  );
 
   const data = await requestJson(
     url,
@@ -54,7 +59,11 @@ export async function createWishlist(userId, wishlistTitle) {
   }
 
   const trimmedTitle = wishlistTitle.trim();
-  const url = createApiUrl("/wishlists");
+  
+  const url = createApiUrl(
+    "/wishlists",
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+  );
 
   const data = await requestJson(
     url,
@@ -86,7 +95,12 @@ export async function getWishlistEvents(
 ) {
   requirePositiveInteger(wishlistId, "A valid wishlist is required");
 
-  const url = new URL(createApiUrl(`/wishlists/${wishlistId}/events`));
+  const url = new URL(
+    createApiUrl(
+      `/wishlists/${wishlistId}/events`,
+      WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+    ),
+  );
 
   if (typeof category === "string" && category.trim()) {
     url.searchParams.set("category", category.trim().toLowerCase());
@@ -116,7 +130,10 @@ export async function addEventToWishlist(wishlistId, eventId) {
   requirePositiveInteger(wishlistId, "A valid wishlist is required");
   requirePositiveInteger(eventId, "A valid event is required");
 
-  const url = createApiUrl(`/wishlists/${wishlistId}/events`);
+  const url = createApiUrl(
+    `/wishlists/${wishlistId}/events`,
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+  );
 
   const data = await requestJson(
     url,
@@ -148,7 +165,10 @@ export async function updateWishlistEventStatus(wishlistEventId, status) {
     throw new Error("Choose a valid event status");
   }
 
-  const url = createApiUrl("/update-event-status");
+  const url = createApiUrl(
+  "/update-event-status",
+  WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+  );
 
   const data = await requestJson(
     url,
@@ -184,6 +204,7 @@ export async function removeEventFromWishlist(
 
   const url = createApiUrl(
     `/users/${userId}/wishlists/${wishlistId}/events/${wishlistEventId}`,
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
   );
 
   const data = await requestJson(
@@ -210,7 +231,10 @@ export async function deleteWishlist(userId, wishlistId) {
   requirePositiveInteger(userId, "A valid demo profile is required");
   requirePositiveInteger(wishlistId, "A valid wishlist is required");
 
-  const url = createApiUrl(`/users/${userId}/wishlists/${wishlistId}`);
+  const url = createApiUrl(
+    `/users/${userId}/wishlists/${wishlistId}`,
+    WISHLIST_CONFIGURATION_ERROR_MESSAGE,
+  );
 
   const data = await requestJson(
     url,
@@ -239,20 +263,6 @@ async function requestJson(url, options, errorMessage) {
     return await response.json();
   } catch {
     throw new Error(errorMessage);
-  }
-}
-
-function createApiUrl(path) {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  if (!apiUrl) {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
-  }
-
-  try {
-    return new URL(path, apiUrl).toString();
-  } catch {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
   }
 }
 

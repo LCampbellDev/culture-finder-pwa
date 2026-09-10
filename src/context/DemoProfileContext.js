@@ -1,17 +1,21 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { validateUsername } from "../lib/validation/username-validation";
+
+/*
+Demo profile context:
+- Restores and validates a demo profile from browser storage
+- Provides the active profile and readiness state
+- Saves and clears the demo profile
+- Keeps the profile usable in memory if browser storage is unavailable
+*/
 
 export const DEMO_PROFILE_STORAGE_KEY = "culture-finder-demo-profile";
 
 const DemoProfileContext = createContext(null);
 
-function containsUnsupportedCharacters(value) {
-  return [...value].some(
-    (character) => character !== " " && /[\p{C}\p{Z}]/u.test(character),
-  );
-}
-
+/* Validate profile structure and require the stored username to already be trimmed */
 function isValidDemoProfile(profile) {
   return (
     profile !== null &&
@@ -19,10 +23,8 @@ function isValidDemoProfile(profile) {
     Number.isInteger(profile.userId) &&
     profile.userId > 0 &&
     typeof profile.username === "string" &&
-    profile.username.length > 0 &&
-    profile.username.length <= 50 &&
     profile.username === profile.username.trim() &&
-    !containsUnsupportedCharacters(profile.username)
+    !validateUsername(profile.username).error
   );
 }
 

@@ -6,6 +6,7 @@ import {
   useDemoProfile,
 } from "./DemoProfileContext";
 
+
 function ProfileTestControls() {
   const { profile, isProfileReady, saveDemoProfile, clearDemoProfile } =
     useDemoProfile();
@@ -45,6 +46,7 @@ describe("DemoProfileProvider", () => {
   });
 
   it("saves a demo profile in browser storage", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     render(
@@ -53,10 +55,13 @@ describe("DemoProfileProvider", () => {
       </DemoProfileProvider>,
     );
 
+    
     await screen.findByText("No active profile");
 
+    // Act
     await user.click(screen.getByRole("button", { name: /save profile/i }));
 
+    // Assert
     expect(
       screen.getByText("Active profile: demo-reviewer"),
     ).toBeInTheDocument();
@@ -70,7 +75,8 @@ describe("DemoProfileProvider", () => {
   });
 
   it("restores a valid stored demo profile", async () => {
-    window.localStorage.setItem(
+    // Arrange
+      window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: 7,
@@ -84,13 +90,15 @@ describe("DemoProfileProvider", () => {
       </DemoProfileProvider>,
     );
 
+    // Assert
     expect(
       await screen.findByText("Active profile: demo-reviewer"),
     ).toBeInTheDocument();
   });
 
   it("removes invalid stored profile data", async () => {
-    window.localStorage.setItem(
+    // Arrange
+      window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: "not-a-number",
@@ -104,6 +112,7 @@ describe("DemoProfileProvider", () => {
       </DemoProfileProvider>,
     );
 
+    // Assert
     expect(await screen.findByText("No active profile")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -112,9 +121,10 @@ describe("DemoProfileProvider", () => {
   });
 
   it("clears the active and stored profile", async () => {
+    // Arrange 
     const user = userEvent.setup();
 
-    window.localStorage.setItem(
+      window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: 7,
@@ -130,8 +140,10 @@ describe("DemoProfileProvider", () => {
 
     await screen.findByText("Active profile: demo-reviewer");
 
+    // Act
     await user.click(screen.getByRole("button", { name: /clear profile/i }));
 
+    // Assert
     expect(screen.getByText("No active profile")).toBeInTheDocument();
 
     expect(window.localStorage.getItem(DEMO_PROFILE_STORAGE_KEY)).toBeNull();

@@ -1,5 +1,7 @@
+import { createApiUrl } from "./api-client";
+
 const USERNAME_REQUIRED_MESSAGE = "Enter a demo username";
-const CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
+const USER_PROFILE_CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
 const PROFILE_ERROR_MESSAGE =
   "We could not create or continue with the demo profile. Check your connection and try again";
 
@@ -46,15 +48,8 @@ function createProfileUrl(username) {
     throw new Error(USERNAME_REQUIRED_MESSAGE);
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  if (!apiUrl) {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
-  }
-
-  try {
-    return new URL("/users", apiUrl).toString();
-  } catch {
-    throw new Error(CONFIGURATION_ERROR_MESSAGE);
-  }
+  return createApiUrl(
+    "/users",
+    USER_PROFILE_CONFIGURATION_ERROR_MESSAGE,
+  );
 }

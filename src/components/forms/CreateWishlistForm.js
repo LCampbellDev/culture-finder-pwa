@@ -3,14 +3,34 @@
 import { useEffect, useRef, useState } from "react";
 import FieldError from "./FieldError";
 import styles from "./Form.module.css";
+import {
+  maxLength,
+  nonEmptyText,
+  noUnsupportedUnicodeCharacters,
+} from "../../lib/validation/text-validation-rules";
+
+import { validateTextInput } from "../../lib/validation/validate-text-input";
+
+/*
+Create wishlist form:
+- Validates and submits a wishlist name
+- Manages validation errors and focus
+- Clears the field after successful creation
+- Disables submission while the wishlist is being created
+*/
 
 const MAX_WISHLIST_TITLE_LENGTH = 255;
 
-function containsUnsupportedCharacters(value) {
-  return [...value].some(
-    (character) => character !== " " && /[\p{C}\p{Z}]/u.test(character),
-  );
-}
+const wishlistTitleRules = [
+  nonEmptyText("Enter a wishlist name"),
+  maxLength(
+    MAX_WISHLIST_TITLE_LENGTH,
+    "Wishlist name must be 255 characters or fewer",
+  ),
+  noUnsupportedUnicodeCharacters(
+    "Wishlist name contains unsupported characters",
+  ),
+];
 
 export default function CreateWishlistForm({
   onWishlistSubmit,
@@ -29,26 +49,21 @@ export default function CreateWishlistForm({
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const trimmedTitle = wishlistTitle.trim();
+    const wishlistTitleValidation = validateTextInput(
+      wishlistTitle,
+      wishlistTitleRules,
+    );
 
-    if (!trimmedTitle) {
-      showError("Enter a wishlist name");
+    if (wishlistTitleValidation.error) {
+      showError(wishlistTitleValidation.error);
       return;
-    }
-
-    if (trimmedTitle.length > MAX_WISHLIST_TITLE_LENGTH) {
-      showError("Wishlist name must be 255 characters or fewer");
-      return;
-    }
-
-    if (containsUnsupportedCharacters(trimmedTitle)) {
-      showError("Wishlist name contains unsupported characters");
-      return;
-    }
+  }
 
     setWishlistTitleError("");
 
-    const wasCreated = await onWishlistSubmit(trimmedTitle);
+    const wasCreated = await onWishlistSubmit(
+      wishlistTitleValidation.value,
+    );
 
     if (wasCreated) {
       setWishlistTitle("");
