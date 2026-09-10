@@ -6,6 +6,7 @@ import {
 
 import { validateTextInput } from "./validate-text-input";
 
+// Keep aligned with the backend/database username length constraint
 export const MAX_USERNAME_LENGTH = 50;
 
 const usernameRules = [

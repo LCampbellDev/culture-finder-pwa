@@ -30,10 +30,7 @@ describe("validateTextInput", () => {
     const firstRule = jest.fn().mockReturnValue("First error");
     const secondRule = jest.fn().mockReturnValue("Second error");
 
-    const result = validateTextInput("Summer events", [
-      firstRule,
-      secondRule,
-    ]);
+    const result = validateTextInput("Summer events", [firstRule, secondRule]);
 
     expect(result).toEqual({
       value: "Summer events",

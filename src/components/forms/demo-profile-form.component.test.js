@@ -12,7 +12,6 @@ Component tests cover:
 - Disabled submission while loading
 */
 
-
 describe("DemoProfileForm", () => {
   it("renders a named form with a required username field", () => {
     // Arrange
@@ -85,7 +84,6 @@ describe("DemoProfileForm", () => {
         name: /create or continue with demo profile/i,
       }),
     );
-
 
     // Assert
     expect(

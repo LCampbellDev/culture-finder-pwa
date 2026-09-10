@@ -57,13 +57,11 @@ export default function CreateWishlistForm({
     if (wishlistTitleValidation.error) {
       showError(wishlistTitleValidation.error);
       return;
-  }
+    }
 
     setWishlistTitleError("");
 
-    const wasCreated = await onWishlistSubmit(
-      wishlistTitleValidation.value,
-    );
+    const wasCreated = await onWishlistSubmit(wishlistTitleValidation.value);
 
     if (wasCreated) {
       setWishlistTitle("");

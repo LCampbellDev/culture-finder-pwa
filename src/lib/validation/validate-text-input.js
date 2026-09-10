@@ -19,7 +19,7 @@ export function validateTextInput(value, rules) {
     throw new TypeError("rules must be an array");
   }
 
-/* Keep both values so rules can inspect raw input where trimming could hide invalid characters */
+  /* Keep both values so rules can inspect raw input where trimming could hide invalid characters */
   const context = {
     value,
     trimmedValue: value.trim(),

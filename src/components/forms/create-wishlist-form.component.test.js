@@ -125,53 +125,53 @@ describe("CreateWishlistForm", () => {
   });
 
   it("submits a trimmed wishlist name", async () => {
-  // Arrange
-  const user = userEvent.setup();
-  const onWishlistSubmit = jest.fn().mockResolvedValue(undefined);
+    // Arrange
+    const user = userEvent.setup();
+    const onWishlistSubmit = jest.fn().mockResolvedValue(undefined);
 
-  render(<CreateWishlistForm onWishlistSubmit={onWishlistSubmit} />);
+    render(<CreateWishlistForm onWishlistSubmit={onWishlistSubmit} />);
 
-  // Act
-  await user.type(
-    screen.getByRole("textbox", {
-      name: /wishlist name/i,
-    }),
-    "  Theatre trips  ",
-  );
+    // Act
+    await user.type(
+      screen.getByRole("textbox", {
+        name: /wishlist name/i,
+      }),
+      "  Theatre trips  ",
+    );
 
-  await user.click(
-    screen.getByRole("button", {
-      name: /create wishlist/i,
-    }),
-  );
+    await user.click(
+      screen.getByRole("button", {
+        name: /create wishlist/i,
+      }),
+    );
 
-  // Assert
-  expect(onWishlistSubmit).toHaveBeenCalledWith("Theatre trips");
-});
-
-it("clears the wishlist name after successful creation", async () => {
-  // Arrange
-  const user = userEvent.setup();
-  const onWishlistSubmit = jest.fn().mockResolvedValue(true);
-
-  render(<CreateWishlistForm onWishlistSubmit={onWishlistSubmit} />);
-
-    const input = screen.getByRole("textbox", {
-    name: /wishlist name/i,
+    // Assert
+    expect(onWishlistSubmit).toHaveBeenCalledWith("Theatre trips");
   });
 
-  // Act
-  await user.type(input, "Theatre trips");
+  it("clears the wishlist name after successful creation", async () => {
+    // Arrange
+    const user = userEvent.setup();
+    const onWishlistSubmit = jest.fn().mockResolvedValue(true);
 
-  await user.click(
-    screen.getByRole("button", {
-      name: /create wishlist/i,
-    }),
-  );
+    render(<CreateWishlistForm onWishlistSubmit={onWishlistSubmit} />);
 
-  // Assert
-  expect(input).toHaveValue("");
-});
+    const input = screen.getByRole("textbox", {
+      name: /wishlist name/i,
+    });
+
+    // Act
+    await user.type(input, "Theatre trips");
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /create wishlist/i,
+      }),
+    );
+
+    // Assert
+    expect(input).toHaveValue("");
+  });
 
   it("shows a loading state and prevents repeat submission", () => {
     //Arrange

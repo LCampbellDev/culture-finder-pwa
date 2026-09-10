@@ -26,9 +26,9 @@ export function maxLength(maximumLength, message) {
 export function noUnsupportedUnicodeCharacters(message) {
   return ({ value }) => {
     const containsUnsupportedCharacter = [...value].some(
-        (character) =>
-        /*Allow ordinary spaces while rejecting other Unicode control or separator characters */    
-            character !== " " && isUnicodeControlOrSeparator(character),
+      (character) =>
+        /*Allow ordinary spaces while rejecting other Unicode control or separator characters */
+        character !== " " && isUnicodeControlOrSeparator(character),
     );
 
     return containsUnsupportedCharacter ? message : null;

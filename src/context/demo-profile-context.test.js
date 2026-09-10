@@ -6,7 +6,6 @@ import {
   useDemoProfile,
 } from "./DemoProfileContext";
 
-
 function ProfileTestControls() {
   const { profile, isProfileReady, saveDemoProfile, clearDemoProfile } =
     useDemoProfile();
@@ -55,7 +54,6 @@ describe("DemoProfileProvider", () => {
       </DemoProfileProvider>,
     );
 
-    
     await screen.findByText("No active profile");
 
     // Act
@@ -76,7 +74,7 @@ describe("DemoProfileProvider", () => {
 
   it("restores a valid stored demo profile", async () => {
     // Arrange
-      window.localStorage.setItem(
+    window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: 7,
@@ -98,7 +96,7 @@ describe("DemoProfileProvider", () => {
 
   it("removes invalid stored profile data", async () => {
     // Arrange
-      window.localStorage.setItem(
+    window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: "not-a-number",
@@ -121,10 +119,10 @@ describe("DemoProfileProvider", () => {
   });
 
   it("clears the active and stored profile", async () => {
-    // Arrange 
+    // Arrange
     const user = userEvent.setup();
 
-      window.localStorage.setItem(
+    window.localStorage.setItem(
       DEMO_PROFILE_STORAGE_KEY,
       JSON.stringify({
         userId: 7,

@@ -17,10 +17,6 @@ Demo profile form:
 - Disables submission while the profile is being created
 */
 
-const MAX_USERNAME_LENGTH = 50;
-
-
-
 export default function DemoProfileForm({
   onProfileSubmit,
   isLoading = false,
@@ -45,9 +41,9 @@ export default function DemoProfileForm({
       return;
     }
 
-        setUsernameError("");
-        await onProfileSubmit(usernameValidation.value);
-      }
+    setUsernameError("");
+    await onProfileSubmit(usernameValidation.value);
+  }
 
   function showError(message) {
     setUsernameError(message);

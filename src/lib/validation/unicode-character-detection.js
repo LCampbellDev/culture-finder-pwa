@@ -10,7 +10,6 @@ Boolean indicating whether the character is in Unicode category C or Z */
 Caller provides exactly one Unicode character 
 Unicode categories C and Z identify the characters this helper is responsible for detecting */
 
-
 /* LIMITATIONS: 
 Detects Unicode categories only; does not decide whether a character is valid input */
 
@@ -28,5 +27,3 @@ export function isUnicodeControlOrSeparator(character) {
 
   return UNICODE_CONTROL_OR_SEPARATOR_PATTERN.test(character);
 }
-
-
