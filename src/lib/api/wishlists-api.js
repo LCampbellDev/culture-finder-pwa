@@ -1,4 +1,5 @@
 import { createApiUrl } from "./api-client";
+import { createApiUrl, requestJson } from "./api-client";
 // TODO: Consider moving wishlist status values into a separate constants module
 // so they are not coupled to the API client
 export const WISHLIST_STATUSES = ["Wishlist", "Booked", "Not Interested"];

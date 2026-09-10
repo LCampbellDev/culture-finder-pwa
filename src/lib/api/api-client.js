@@ -15,7 +15,8 @@ export function createApiUrl(path, configurationErrorMessage) {
 
 
 // requestJson(...)
-/* async function requestJson(url, options, errorMessage) {
+
+  export async function requestJson(url, options, errorMessage) {
   try {
     const response = await fetch(url, options);
 
@@ -27,7 +28,7 @@ export function createApiUrl(path, configurationErrorMessage) {
   } catch {
     throw new Error(errorMessage);
   }
-} */
+}
 
 // createJsonHeaders(...)
 /* function createJsonHeaders({ includeContentType = false } = {}) {

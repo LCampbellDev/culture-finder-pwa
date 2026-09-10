@@ -1,4 +1,4 @@
-import { createApiUrl } from "./api-client";
+import { createApiUrl, requestJson } from "./api-client";
 
 const USERNAME_REQUIRED_MESSAGE = "Enter a demo username";
 const USER_PROFILE_CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
@@ -8,8 +8,9 @@ const PROFILE_ERROR_MESSAGE =
 export async function createOrContinueDemoProfile(username) {
   const profileUrl = createProfileUrl(username);
 
-  try {
-    const response = await fetch(profileUrl, {
+  const data = await requestJson(
+    profileUrl,
+    {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -18,29 +19,22 @@ export async function createOrContinueDemoProfile(username) {
       body: JSON.stringify({
         username: username.trim(),
       }),
-    });
+    },
+    PROFILE_ERROR_MESSAGE,
+  );
 
-    if (!response.ok) {
-      throw new Error(PROFILE_ERROR_MESSAGE);
-    }
-
-    const data = await response.json();
-
-    if (
-      typeof data.user_id !== "number" ||
-      typeof data.username !== "string" ||
-      !data.username.trim()
-    ) {
-      throw new Error(PROFILE_ERROR_MESSAGE);
-    }
-
-    return {
-      userId: data.user_id,
-      username: data.username,
-    };
-  } catch {
+  if (
+    typeof data.user_id !== "number" ||
+    typeof data.username !== "string" ||
+    !data.username.trim()
+  ) {
     throw new Error(PROFILE_ERROR_MESSAGE);
   }
+
+  return {
+    userId: data.user_id,
+    username: data.username,
+  };
 }
 
 function createProfileUrl(username) {

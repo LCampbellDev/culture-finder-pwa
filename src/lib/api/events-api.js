@@ -1,4 +1,4 @@
-import { createApiUrl } from "./api-client";
+import { createApiUrl, requestJson } from "./api-client";
 
 const CITY_REQUIRED_MESSAGE = "Enter a city or location";
 const EVENTS_CONFIGURATION_ERROR_MESSAGE = "Event search is not available right now";
@@ -8,19 +8,16 @@ const SEARCH_ERROR_MESSAGE =
 export async function searchEvents(city, category) {
   const searchUrl = createSearchUrl(city, category);
 
-  try {
-    const response = await fetch(searchUrl, {
+  const data = await requestJson(
+    searchUrl,
+    {
       headers: {
         Accept: "application/json",
       },
       cache: "no-store",
-    });
-
-    if (!response.ok) {
-      throw new Error(SEARCH_ERROR_MESSAGE);
-    }
-
-    const data = await response.json();
+    },
+    SEARCH_ERROR_MESSAGE,
+  );
 
     // Validate the response fields this client relies on.
     // Individual event objects are currently trusted to match the backend contract.
@@ -38,9 +35,6 @@ export async function searchEvents(city, category) {
       count: data.count,
       events: data.events,
     };
-  } catch {
-    throw new Error(SEARCH_ERROR_MESSAGE);
-  }
 }
 
 
