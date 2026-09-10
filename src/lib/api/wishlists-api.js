@@ -1,5 +1,4 @@
-import { createApiUrl } from "./api-client";
-import { createApiUrl, requestJson } from "./api-client";
+import { createApiUrl, createJsonHeaders, requestJson } from "./api-client";
 // TODO: Consider moving wishlist status values into a separate constants module
 // so they are not coupled to the API client
 export const WISHLIST_STATUSES = ["Wishlist", "Booked", "Not Interested"];
@@ -265,18 +264,6 @@ async function requestJson(url, options, errorMessage) {
   } catch {
     throw new Error(errorMessage);
   }
-}
-
-function createJsonHeaders({ includeContentType = false } = {}) {
-  const headers = {
-    Accept: "application/json",
-  };
-
-  if (includeContentType) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  return headers;
 }
 
 function requirePositiveInteger(value, message) {

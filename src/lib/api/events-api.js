@@ -1,4 +1,4 @@
-import { createApiUrl, requestJson } from "./api-client";
+import { createApiUrl, createJsonHeaders, requestJson } from "./api-client";
 
 const CITY_REQUIRED_MESSAGE = "Enter a city or location";
 const EVENTS_CONFIGURATION_ERROR_MESSAGE = "Event search is not available right now";
@@ -11,9 +11,7 @@ export async function searchEvents(city, category) {
   const data = await requestJson(
     searchUrl,
     {
-      headers: {
-        Accept: "application/json",
-      },
+      headers: createJsonHeaders(),
       cache: "no-store",
     },
     SEARCH_ERROR_MESSAGE,

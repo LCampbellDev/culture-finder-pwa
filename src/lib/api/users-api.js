@@ -1,4 +1,4 @@
-import { createApiUrl, requestJson } from "./api-client";
+import { createApiUrl, createJsonHeaders, requestJson } from "./api-client";
 
 const USERNAME_REQUIRED_MESSAGE = "Enter a demo username";
 const USER_PROFILE_CONFIGURATION_ERROR_MESSAGE = "Demo profiles are not available right now";
@@ -12,10 +12,7 @@ export async function createOrContinueDemoProfile(username) {
     profileUrl,
     {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: createJsonHeaders({ includeContentType: true }),
       body: JSON.stringify({
         username: username.trim(),
       }),

@@ -1,3 +1,12 @@
+/*
+- URL construction
+- JSON parsing
+- HTTP request mechanics
+- generic request failure handling
+*/
+
+// URL construction helper
+
 export function createApiUrl(path, configurationErrorMessage) {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,9 +23,9 @@ export function createApiUrl(path, configurationErrorMessage) {
 
 
 
-// requestJson(...)
+// JSON parsing helper
 
-  export async function requestJson(url, options, errorMessage) {
+export async function requestJson(url, options, errorMessage) {
   try {
     const response = await fetch(url, options);
 
@@ -30,8 +39,8 @@ export function createApiUrl(path, configurationErrorMessage) {
   }
 }
 
-// createJsonHeaders(...)
-/* function createJsonHeaders({ includeContentType = false } = {}) {
+// creatE Json headers helper
+export function createJsonHeaders({ includeContentType = false } = {}) {
   const headers = {
     Accept: "application/json",
   };
@@ -41,4 +50,8 @@ export function createApiUrl(path, configurationErrorMessage) {
   }
 
   return headers;
-} */
+}
+
+// HTTP request mechanics helper
+
+// generic request failure handling
