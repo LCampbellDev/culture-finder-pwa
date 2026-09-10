@@ -146,9 +146,9 @@ Planned later work includes end-to-end testing, CI/CD and deployment.
 
 ### Culture Finder backend
 
-My copy of the original Flask/MySQL backend https://github.com/LCampbellDev/culture-finder-backend
+My copy of the original Flask/MySQL backend, with small changes made to support continued development and frontend integration. https://github.com/LCampbellDev/culture-finder-backend 
 
-### Original Culture Finder group repository
+### Original Culture Finder group project repository
 
 The collaborative project from which this frontend developed
 https://github.com/simrah89/culture-finder
