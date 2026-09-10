@@ -9,7 +9,10 @@ import feedbackStyles from "../../components/ui/Feedback.module.css";
 import PageError from "../../components/ui/PageError";
 import SaveEventForm from "../../components/forms/SaveEventForm";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
+import {
+  addEventToWishlist,
+  getUserWishlists,
+} from "../../lib/api/wishlists-api";
 
 export default function SearchPageClient() {
   const { profile, isProfileReady } = useDemoProfile();

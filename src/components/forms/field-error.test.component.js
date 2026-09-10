@@ -10,7 +10,6 @@ describe("FieldError", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  
   it("renders a labelled error without making it a focus target", () => {
     // Arrange
     render(

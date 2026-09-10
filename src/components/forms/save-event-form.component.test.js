@@ -136,7 +136,7 @@ describe("SaveEventForm", () => {
   });
 
   it("announces a successful save without moving focus", () => {
-    // Arrange 
+    // Arrange
     const { rerender } = render(
       <SaveEventForm
         eventName="Leeds Jazz Evening"

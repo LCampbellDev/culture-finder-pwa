@@ -3,7 +3,10 @@ import userEvent from "@testing-library/user-event";
 import SearchPageClient from "./SearchPageClient";
 import { searchEvents } from "../../lib/api/events-api";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
+import {
+  addEventToWishlist,
+  getUserWishlists,
+} from "../../lib/api/wishlists-api";
 
 jest.mock("../../lib/api/events-api", () => ({
   searchEvents: jest.fn(),

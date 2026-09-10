@@ -142,12 +142,13 @@ This is an active learning and development project.
 Current work includes reviewing code readability, reducing meaningful duplication, strengthening separation of concerns, and improving test organisation.
 Planned later work includes end-to-end testing, CI/CD and deployment.
 
-
 ## Related repositories
 
-### Culture Finder backend 
+### Culture Finder backend
+
 My copy of the original Flask/MySQL backend https://github.com/LCampbellDev/culture-finder-backend
 
-### Original Culture Finder group repository 
-The collaborative project from which this frontend developed 
+### Original Culture Finder group repository
+
+The collaborative project from which this frontend developed
 https://github.com/simrah89/culture-finder
