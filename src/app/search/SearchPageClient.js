@@ -14,6 +14,26 @@ import {
   getUserWishlists,
 } from "../../lib/api/wishlists-api";
 
+// REVIEW:
+
+/* this SearchPageClient and WishlistPageClient have possible shared consts
+
+Search has:
+
+savingEventId
+saveSuccessMessage
+saveErrorMessage
+saveFeedbackEventId
+
+Wishlist has:
+
+updatingEventId
+statusSuccessMessage
+statusErrorMessage
+statusFeedbackEventId
+*/
+
+// TODO: remove unused consts
 export default function SearchPageClient() {
   const { profile, isProfileReady } = useDemoProfile();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,9 +53,13 @@ export default function SearchPageClient() {
       return;
     }
 
+    // REVIEW: Both this page and WishlistPageClient load the active user's wishlists,
+    // but for different purposes. Shared abstraction may not be warranted.
     let isCurrent = true;
 
     async function loadWishlists() {
+      // attempt loading
+      // set wishlistLoadError if it fails
       setAreWishlistsLoading(true);
       setWishlistLoadError("");
 
@@ -64,6 +88,8 @@ export default function SearchPageClient() {
     };
   }, [isProfileReady, profile]);
 
+  // RESPONSIBILITY: Coordinate event search and search-result feedback
+  // REVIEW: Wishlist loading/error state is maintained but not currently presented in the UI
   async function handleSearch(city, category) {
     setIsLoading(true);
     setEvents([]);
@@ -138,6 +164,8 @@ export default function SearchPageClient() {
           <SaveEventForm
             eventName={event.event_name}
             wishlists={availableWishlists}
+            areWishlistsLoading={areWishlistsLoading}
+            wishlistLoadError={wishlistLoadError}
             onSave={(wishlistId) =>
               handleSaveToWishlist(wishlistId, event.event_id)
             }

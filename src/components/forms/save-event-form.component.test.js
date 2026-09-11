@@ -200,4 +200,87 @@ describe("SaveEventForm", () => {
     );
     expect(button).toHaveFocus();
   });
+
+  it("disables wishlist controls while wishlists are loading", () => {
+    // Arrange
+    render(
+      <SaveEventForm
+        eventName="Test event"
+        wishlists={[]}
+        onSave={jest.fn()}
+        areWishlistsLoading={true}
+      />,
+    );
+
+    // Assert
+    expect(
+      screen.getByRole("combobox", { name: /wishlist for test event/i }),
+    ).toBeDisabled();
+
+    expect(
+      screen.getByRole("button", { name: /save to wishlist: test event/i }),
+    ).toBeDisabled();
+
+    expect(screen.getByText("Loading wishlists…")).toBeInTheDocument();
+  });
+
+  it("shows an error and disables wishlist controls when wishlists fail to load", () => {
+    // Arrange
+    const wishlistLoadErrorMessage =
+      "We could not load your wishlists. Try again";
+
+    render(
+      <SaveEventForm
+        eventName="Test event"
+        wishlists={[]}
+        onSave={jest.fn()}
+        wishlistLoadError={wishlistLoadErrorMessage}
+      />,
+    );
+
+    // Assert
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      wishlistLoadErrorMessage,
+    );
+
+    expect(
+      screen.getByRole("combobox", {
+        name: /wishlist for test event/i,
+      }),
+    ).toBeDisabled();
+
+    expect(
+      screen.getByRole("button", {
+        name: /save to wishlist: test event/i,
+      }),
+    ).toBeDisabled();
+  });
+
+  it("shows when no wishlists are available and disables wishlist controls", () => {
+    // Arrange
+    render(
+      <SaveEventForm
+        eventName="Test event"
+        wishlists={[]}
+        onSave={jest.fn()}
+      />,
+    );
+
+    // Assert
+    expect(
+      screen.getByText("You don't have any wishlists yet"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("combobox", {
+        name: /wishlist for test event/i,
+      }),
+    ).toBeDisabled();
+
+    expect(
+      screen.getByRole("button", {
+        name: /save to wishlist: test event/i,
+      }),
+    ).toBeDisabled();
+  });
 });
