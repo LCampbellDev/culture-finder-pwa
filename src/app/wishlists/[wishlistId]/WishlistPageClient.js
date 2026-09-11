@@ -10,6 +10,26 @@ import {
 } from "../../../lib/api/wishlists-api";
 import PageHeader from "../../../components/ui/PageHeader";
 import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusForm";
+import PageError from "../../../components/ui/PageError";
+
+// REVIEW:
+/* this WishlistPageClient and SearchPageClient have possible shared consts
+
+Wishlist has:
+
+updatingEventId
+statusSuccessMessage
+statusErrorMessage
+statusFeedbackEventId
+
+Search has:
+
+savingEventId
+saveSuccessMessage
+saveErrorMessage
+saveFeedbackEventId
+
+*/
 
 export default function WishlistPageClient({ wishlistId }) {
   const [events, setEvents] = useState([]);
@@ -98,7 +118,7 @@ export default function WishlistPageClient({ wishlistId }) {
       />
 
       {isLoading && <p>Loading wishlist events…</p>}
-      {errorMessage && <p>{errorMessage}</p>}
+      <PageError message={errorMessage} />
       {!isLoading && !errorMessage && events.length === 0 && (
         <p>This wishlist does not have any saved events yet</p>
       )}
