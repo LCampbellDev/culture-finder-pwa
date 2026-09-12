@@ -10,7 +10,10 @@ import {
 } from "./wishlists-api";
 import { createMockJsonResponse } from "./test-helpers/create-mock-json-response";
 
-describe("wishlist API client", () => {
+const originalApiUrl = process.env.NEXT_PUBLIC_API_URL;
+const originalFetch = global.fetch;
+
+describe("wishlist API", () => {
   beforeEach(() => {
     process.env.NEXT_PUBLIC_API_URL = "http://127.0.0.1:5000";
     global.fetch = jest.fn();
@@ -19,6 +22,15 @@ describe("wishlist API client", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
+  afterAll(() => {
+  global.fetch = originalFetch;
+
+  if (originalApiUrl === undefined) {
+    delete process.env.NEXT_PUBLIC_API_URL;
+  } else {
+    process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
+  }
+});
 
   it("exports the statuses accepted by the backend", () => {
     // Assert
