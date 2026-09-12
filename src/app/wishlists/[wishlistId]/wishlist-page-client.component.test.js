@@ -145,7 +145,6 @@ describe("Wishlist page", () => {
       "Status updated to Booked",
     );
   });
-});
 
 it("shows an error when updating the status fails", async () => {
   // Arrange
@@ -189,4 +188,5 @@ it("shows an error when updating the status fails", async () => {
   );
 
   expect(screen.queryByRole("status")).not.toBeInTheDocument();
+});
 });

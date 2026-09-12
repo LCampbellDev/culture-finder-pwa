@@ -5,6 +5,13 @@ import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 import feedbackStyles from "../ui/Feedback.module.css";
 
+/*
+Save event form:
+
+- Lets users choose a wishlist and save an event
+- Handles wishlist availability, validation and accessible feedback
+*/
+
 export default function SaveEventForm({
   eventName,
   wishlists,

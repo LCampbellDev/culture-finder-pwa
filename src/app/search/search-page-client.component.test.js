@@ -48,6 +48,7 @@ describe("SearchPageClient", () => {
   });
 
   it("searches using the submitted city and category", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -67,6 +68,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", { name: /city or location/i }),
       "Leeds",
@@ -79,6 +81,7 @@ describe("SearchPageClient", () => {
 
     await user.click(screen.getByRole("button", { name: /search events/i }));
 
+    // Assert
     expect(searchEvents).toHaveBeenCalledWith("Leeds", "Music");
 
     expect(
@@ -103,6 +106,7 @@ describe("SearchPageClient", () => {
   });
 
   it("shows a helpful message when no events are found", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -113,6 +117,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", { name: /city or location/i }),
       "York",
@@ -120,6 +125,7 @@ describe("SearchPageClient", () => {
 
     await user.click(screen.getByRole("button", { name: /search events/i }));
 
+    // Assert
     expect(
       await screen.findByText(
         "No events found in York. Try another city or category.",
@@ -132,6 +138,7 @@ describe("SearchPageClient", () => {
   });
 
   it("shows an accessible error when the search fails", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockRejectedValue(
@@ -142,6 +149,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", { name: /city or location/i }),
       "Leeds",
@@ -149,6 +157,7 @@ describe("SearchPageClient", () => {
 
     await user.click(screen.getByRole("button", { name: /search events/i }));
 
+    // Assert
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "We could not search for events. Check your connection and try again",
     );
@@ -159,6 +168,7 @@ describe("SearchPageClient", () => {
   });
 
   it("loads the active profile wishlists and renders a save form for each event", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -174,6 +184,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", {
         name: /city or location/i,
@@ -187,6 +198,7 @@ describe("SearchPageClient", () => {
       }),
     );
 
+    // Assert
     await waitFor(() => {
       expect(getUserWishlists).toHaveBeenCalledWith(2);
     });
@@ -205,6 +217,7 @@ describe("SearchPageClient", () => {
   });
 
   it("saves an event to the selected wishlist", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -226,6 +239,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", {
         name: /city or location/i,
@@ -256,12 +270,14 @@ describe("SearchPageClient", () => {
       }),
     );
 
+    // Assert
     await waitFor(() => {
       expect(addEventToWishlist).toHaveBeenCalledWith(5, 12);
     });
   });
 
   it("shows a success message after saving an event", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -283,6 +299,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", {
         name: /city or location/i,
@@ -309,12 +326,14 @@ describe("SearchPageClient", () => {
       }),
     );
 
+    // Assert
     expect(
       await screen.findByText("Event saved to your wishlist"),
     ).toBeInTheDocument();
   });
 
   it("shows an accessible error when saving an event fails", async () => {
+    // Arrange
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -336,6 +355,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
+    // Act
     await user.type(
       screen.getByRole("textbox", {
         name: /city or location/i,
@@ -362,6 +382,7 @@ describe("SearchPageClient", () => {
       }),
     );
 
+    // Assert
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "We could not save the event. Check your connection and try again",
     );

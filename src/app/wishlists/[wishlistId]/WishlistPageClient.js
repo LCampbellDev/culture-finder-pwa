@@ -12,23 +12,12 @@ import PageHeader from "../../../components/ui/PageHeader";
 import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusForm";
 import PageError from "../../../components/ui/PageError";
 
-// REVIEW:
-/* this WishlistPageClient and SearchPageClient have possible shared consts
+/*
+Wishlist detail page orchestration:
 
-Wishlist has:
-
-updatingEventId
-statusSuccessMessage
-statusErrorMessage
-statusFeedbackEventId
-
-Search has:
-
-savingEventId
-saveSuccessMessage
-saveErrorMessage
-saveFeedbackEventId
-
+- Loads the current wishlist title and saved events
+- Coordinates per-event status updates
+- Presents loading, empty and error states
 */
 
 export default function WishlistPageClient({ wishlistId }) {

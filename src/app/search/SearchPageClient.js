@@ -14,26 +14,14 @@ import {
   getUserWishlists,
 } from "../../lib/api/wishlists-api";
 
-// REVIEW:
+/*
+Search page orchestration:
 
-/* this SearchPageClient and WishlistPageClient have possible shared consts
-
-Search has:
-
-savingEventId
-saveSuccessMessage
-saveErrorMessage
-saveFeedbackEventId
-
-Wishlist has:
-
-updatingEventId
-statusSuccessMessage
-statusErrorMessage
-statusFeedbackEventId
+- Searches for events and presents search feedback
+- Loads the active user's wishlists for saving events
+- Coordinates per-event save state and feedback
 */
 
-// TODO: remove unused consts
 export default function SearchPageClient() {
   const { profile, isProfileReady } = useDemoProfile();
   const [isLoading, setIsLoading] = useState(false);
@@ -53,13 +41,10 @@ export default function SearchPageClient() {
       return;
     }
 
-    // REVIEW: Both this page and WishlistPageClient load the active user's wishlists,
-    // but for different purposes. Shared abstraction may not be warranted.
+    // Prevent stale async responses from updating state after cleanup
     let isCurrent = true;
 
     async function loadWishlists() {
-      // attempt loading
-      // set wishlistLoadError if it fails
       setAreWishlistsLoading(true);
       setWishlistLoadError("");
 
@@ -87,9 +72,7 @@ export default function SearchPageClient() {
       isCurrent = false;
     };
   }, [isProfileReady, profile]);
-
-  // RESPONSIBILITY: Coordinate event search and search-result feedback
-  // REVIEW: Wishlist loading/error state is maintained but not currently presented in the UI
+  
   async function handleSearch(city, category) {
     setIsLoading(true);
     setEvents([]);

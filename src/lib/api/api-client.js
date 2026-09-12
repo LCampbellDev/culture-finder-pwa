@@ -1,11 +1,11 @@
-// Shared HTTP request and JSON response handling
+
 /*
+Shared API client utilities:
+
 - API URL construction
 - Request and error handling
 - JSON header creation
 */
-
-// Build an API URL and handle missing or invalid API configuration
 
 export function createApiUrl(path, configurationErrorMessage) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -21,8 +21,6 @@ export function createApiUrl(path, configurationErrorMessage) {
   }
 }
 
-// Make an HTTP request, check the response and parse the JSON body
-
 export async function requestJson(url, options, errorMessage) {
   try {
     const response = await fetch(url, options);
@@ -36,8 +34,6 @@ export async function requestJson(url, options, errorMessage) {
     throw new Error(errorMessage);
   }
 }
-
-// Create standard headers for JSON API requests
 
 export function createJsonHeaders({ includeContentType = false } = {}) {
   const headers = {
