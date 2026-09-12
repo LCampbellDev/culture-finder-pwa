@@ -82,7 +82,6 @@ export default function SearchPageClient() {
     setSaveErrorMessage("");
     setSaveFeedbackEventId(null);
 
-
     try {
       const result = await searchEvents(city, category);
 
