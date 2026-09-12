@@ -12,7 +12,7 @@ describe("createOrContinueDemoProfile", () => {
 
   afterAll(() => {
     global.fetch = originalFetch;
-    
+
     if (originalApiUrl === undefined) {
       delete process.env.NEXT_PUBLIC_API_URL;
     } else {

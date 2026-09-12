@@ -146,47 +146,47 @@ describe("Wishlist page", () => {
     );
   });
 
-it("shows an error when updating the status fails", async () => {
-  // Arrange
-  const wishlistId = "5";
+  it("shows an error when updating the status fails", async () => {
+    // Arrange
+    const wishlistId = "5";
 
-  getWishlistEvents.mockResolvedValue([
-    {
-      wishlist_event_id: 8,
-      event_name: "Leeds Jazz Evening",
-      event_date: "2026-09-20",
-      event_time: "19:30:00",
-      venue_name: "Leeds Town Hall",
-      city: "Leeds",
-      category: "Music",
-      status: "Wishlist",
-    },
-  ]);
+    getWishlistEvents.mockResolvedValue([
+      {
+        wishlist_event_id: 8,
+        event_name: "Leeds Jazz Evening",
+        event_date: "2026-09-20",
+        event_time: "19:30:00",
+        venue_name: "Leeds Town Hall",
+        city: "Leeds",
+        category: "Music",
+        status: "Wishlist",
+      },
+    ]);
 
-  updateWishlistEventStatus.mockRejectedValue(
-    new Error("Could not update event status"),
-  );
+    updateWishlistEventStatus.mockRejectedValue(
+      new Error("Could not update event status"),
+    );
 
-  render(<WishlistPageClient wishlistId={wishlistId} />);
+    render(<WishlistPageClient wishlistId={wishlistId} />);
 
-  const statusSelect = await screen.findByLabelText("Status");
+    const statusSelect = await screen.findByLabelText("Status");
 
-  // Act
-  fireEvent.change(statusSelect, {
-    target: { value: "Booked" },
+    // Act
+    fireEvent.change(statusSelect, {
+      target: { value: "Booked" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Update status",
+      }),
+    );
+
+    // Assert
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Could not update event status",
+    );
+
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
-
-  fireEvent.click(
-    screen.getByRole("button", {
-      name: "Update status",
-    }),
-  );
-
-  // Assert
-  expect(await screen.findByRole("alert")).toHaveTextContent(
-    "Could not update event status",
-  );
-
-  expect(screen.queryByRole("status")).not.toBeInTheDocument();
-});
 });
