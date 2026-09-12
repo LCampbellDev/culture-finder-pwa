@@ -15,7 +15,9 @@ it("displays the current status and available status options", () => {
     />,
   );
 
-  const statusSelect = screen.getByLabelText("Status");
+  const statusSelect = screen.getByRole("combobox", {
+    name: /status for Leeds Jazz Evening/i,
+  });
 
   // Assert
   expect(statusSelect).toHaveValue("Wishlist");
@@ -43,11 +45,20 @@ it("submits the selected status", () => {
   );
 
   // Act
-  fireEvent.change(screen.getByLabelText("Status"), {
-    target: { value: "Booked" },
-  });
+  fireEvent.change(
+    screen.getByRole("combobox", {
+      name: /status for Leeds Jazz Evening/i,
+    }),
+    {
+      target: { value: "Booked" },
+    },
+  );
 
-  fireEvent.click(screen.getByRole("button", { name: "Update status" }));
+  fireEvent.click(
+    screen.getByRole("button", {
+      name: /update status for Leeds Jazz Evening/i,
+    }),
+  );
 
   // Assert
   expect(onStatusUpdate).toHaveBeenCalledWith(8, "Booked");
@@ -67,9 +78,12 @@ it("disables the status controls while updating", () => {
     />,
   );
 
-  const statusSelect = screen.getByLabelText("Status");
-  const updateButton = screen.getByRole("button", { name: "Updating…" });
-
+  const statusSelect = screen.getByRole("combobox", {
+    name: /status for Leeds Jazz Evening/i,
+  });
+  const updateButton = screen.getByRole("button", {
+    name: /updating status for Leeds Jazz Evening/i,
+  });
   // Assert
   expect(statusSelect).toBeDisabled();
   expect(updateButton).toBeDisabled();

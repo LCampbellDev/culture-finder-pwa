@@ -123,7 +123,9 @@ describe("Wishlist page", () => {
 
     render(<WishlistPageClient wishlistId={wishlistId} />);
 
-    const statusSelect = await screen.findByLabelText("Status");
+    const statusSelect = await screen.findByRole("combobox", {
+      name: /status for Leeds Jazz Evening/i,
+    });
 
     // Act
     fireEvent.change(statusSelect, {
@@ -132,7 +134,7 @@ describe("Wishlist page", () => {
 
     fireEvent.click(
       screen.getByRole("button", {
-        name: "Update status",
+        name: /update status for Leeds Jazz Evening/i,
       }),
     );
 
@@ -169,7 +171,9 @@ describe("Wishlist page", () => {
 
     render(<WishlistPageClient wishlistId={wishlistId} />);
 
-    const statusSelect = await screen.findByLabelText("Status");
+    const statusSelect = await screen.findByRole("combobox", {
+      name: /status for Leeds Jazz Evening/i,
+    });
 
     // Act
     fireEvent.change(statusSelect, {
@@ -178,7 +182,7 @@ describe("Wishlist page", () => {
 
     fireEvent.click(
       screen.getByRole("button", {
-        name: "Update status",
+        name: /update status for Leeds Jazz Evening/i,
       }),
     );
 
