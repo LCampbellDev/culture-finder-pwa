@@ -65,15 +65,13 @@ describe("searchEvents", () => {
 
   it("omits the category when one is not provided", async () => {
     // Arrange
-    // Configure fetch response
-    global.fetch.mockResolvedValue({
-      ok: true,
-      json: jest.fn().mockResolvedValue({
+    global.fetch.mockResolvedValue(
+      createMockJsonResponse({
         city: "York",
         count: 0,
         events: [],
       }),
-    });
+    );
 
     // Act
     await searchEvents("York");
@@ -97,7 +95,6 @@ describe("searchEvents", () => {
 
   it("reports unavailable configuration without making a request", async () => {
     // Arrange
-    // Configure unavailable API environment
     delete process.env.NEXT_PUBLIC_API_URL;
 
     // Act
@@ -111,7 +108,6 @@ describe("searchEvents", () => {
 
   it("returns a friendly message for an unsuccessful response", async () => {
     // Arrange
-    // Configure failed API response
     global.fetch.mockResolvedValue({
       ok: false,
       status: 500,
@@ -125,7 +121,6 @@ describe("searchEvents", () => {
 
   it("returns a friendly message when the request fails", async () => {
     // Arrange
-    // Configure network failure
     global.fetch.mockRejectedValue(new TypeError("Failed to fetch"));
 
     // Assert
@@ -136,7 +131,6 @@ describe("searchEvents", () => {
 
   it("returns a friendly message for an unexpected response structure", async () => {
     // Arrange
-    // Configure successful API response with an unexpected structure
     global.fetch.mockResolvedValue({
       ok: true,
       json: jest.fn().mockResolvedValue({
