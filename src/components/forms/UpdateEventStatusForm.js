@@ -20,10 +20,7 @@ export default function UpdateEventStatusForm({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      aria-label={`Update status for ${eventName}`}
-    >
+    <form onSubmit={handleSubmit} aria-label={`Update status for ${eventName}`}>
       <label htmlFor={`status-${wishlistEventId}`}>
         Status
         <span className="visually-hidden"> for {eventName}</span>
