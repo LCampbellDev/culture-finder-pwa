@@ -2,14 +2,17 @@ import { createOrContinueDemoProfile } from "./users-api";
 import { createMockJsonResponse } from "./test-helpers/create-mock-json-response";
 
 const originalApiUrl = process.env.NEXT_PUBLIC_API_URL;
+const originalFetch = global.fetch;
 
-describe("demo profile API", () => {
+describe("createOrContinueDemoProfile", () => {
   beforeEach(() => {
     process.env.NEXT_PUBLIC_API_URL = "http://127.0.0.1:5000";
     global.fetch = jest.fn();
   });
 
   afterAll(() => {
+    global.fetch = originalFetch;
+    
     if (originalApiUrl === undefined) {
       delete process.env.NEXT_PUBLIC_API_URL;
     } else {
@@ -35,7 +38,6 @@ describe("demo profile API", () => {
       username: "demo-reviewer",
     });
 
-    // Assert
     expect(fetch).toHaveBeenCalledWith(
       "http://127.0.0.1:5000/users",
       expect.objectContaining({
