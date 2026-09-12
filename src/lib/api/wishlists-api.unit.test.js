@@ -23,14 +23,14 @@ describe("wishlist API", () => {
     jest.restoreAllMocks();
   });
   afterAll(() => {
-  global.fetch = originalFetch;
+    global.fetch = originalFetch;
 
-  if (originalApiUrl === undefined) {
-    delete process.env.NEXT_PUBLIC_API_URL;
-  } else {
-    process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
-  }
-});
+    if (originalApiUrl === undefined) {
+      delete process.env.NEXT_PUBLIC_API_URL;
+    } else {
+      process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
+    }
+  });
 
   it("exports the statuses accepted by the backend", () => {
     // Assert

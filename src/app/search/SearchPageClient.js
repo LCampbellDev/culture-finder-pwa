@@ -72,7 +72,7 @@ export default function SearchPageClient() {
       isCurrent = false;
     };
   }, [isProfileReady, profile]);
-  
+
   async function handleSearch(city, category) {
     setIsLoading(true);
     setEvents([]);

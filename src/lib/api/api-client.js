@@ -1,4 +1,3 @@
-
 /*
 Shared API client utilities:
 
