@@ -13,9 +13,9 @@ import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusFo
 import PageError from "../../../components/ui/PageError";
 
 /*
-Wishlist detail page orchestration:
+Wishlist detail page orchestration for one wishlist:
 
-- Loads the current wishlist title and saved events
+- Loads the wishlist title and saved events
 - Coordinates per-event status updates
 - Presents loading, empty and error states
 */

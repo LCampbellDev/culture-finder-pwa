@@ -11,6 +11,12 @@ import { createWishlist, getUserWishlists } from "../../lib/api/wishlists-api";
 import styles from "./WishlistsPageClient.module.css";
 import PageError from "../../components/ui/PageError";
 
+/*
+Wishlists page orchestration for all wishlists belonging to the active user:
+- Loads and displays the user's wishlists
+- Coordinates creating new wishlists
+- Presents loading, empty, success and error states
+*/
 export default function WishlistsPageClient() {
   const { profile, isProfileReady } = useDemoProfile();
 
