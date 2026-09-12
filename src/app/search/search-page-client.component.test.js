@@ -276,8 +276,8 @@ describe("SearchPageClient", () => {
     });
   });
 
-  it("shows a success message after saving an event", async () => {
-    // Arrange
+  it("shows save success feedback and clears it when a new search starts", async () => {
+    // Arrange the initial search
     const user = userEvent.setup();
 
     searchEvents.mockResolvedValue({
@@ -299,7 +299,7 @@ describe("SearchPageClient", () => {
 
     render(<SearchPageClient />);
 
-    // Act
+    // Act: search and save the event
     await user.type(
       screen.getByRole("textbox", {
         name: /city or location/i,
@@ -326,10 +326,47 @@ describe("SearchPageClient", () => {
       }),
     );
 
-    // Assert
+    // Assert that save feedback appears
     expect(
       await screen.findByText("Event saved to your wishlist"),
     ).toBeInTheDocument();
+
+    // Arrange the next search with the same event ID
+    searchEvents.mockResolvedValue({
+      city: "York",
+      count: 1,
+      events: [
+        {
+          event_id: 12,
+          event_name: "York Folk Evening",
+        },
+      ],
+    });
+
+    // Act: start a new search
+    const cityInput = screen.getByRole("textbox", {
+      name: /city or location/i,
+    });
+
+    await user.clear(cityInput);
+    await user.type(cityInput, "York");
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /search events/i,
+      }),
+    );
+
+    // Assert that the new result replaces the old save feedback
+    expect(
+      await screen.findByRole("heading", {
+        name: "York Folk Evening",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText("Event saved to your wishlist"),
+    ).not.toBeInTheDocument();
   });
 
   it("shows an accessible error when saving an event fails", async () => {
