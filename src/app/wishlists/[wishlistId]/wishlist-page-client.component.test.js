@@ -41,6 +41,40 @@ describe("Wishlist page", () => {
     getWishlistEvents.mockResolvedValue([]);
   });
 
+  it("prompts the user to choose a demo profile when none is active", () => {
+    // Arrange
+    const wishlistId = "5";
+
+    useDemoProfile.mockReturnValue({
+      profile: null,
+      isProfileReady: true,
+    });
+
+    // Act
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    // Assert
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: "Choose a demo profile first",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: "Choose a demo profile",
+      }),
+    ).toHaveAttribute("href", "/");
+
+    expect(
+      screen.queryByText("Loading wishlist events…"),
+    ).not.toBeInTheDocument();
+
+    expect(getUserWishlists).not.toHaveBeenCalled();
+    expect(getWishlistEvents).not.toHaveBeenCalled();
+  });
+
   it("renders the selected wishlist title", async () => {
     // Arrange
     const wishlistId = "5";

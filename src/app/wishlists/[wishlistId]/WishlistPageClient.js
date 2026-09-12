@@ -11,6 +11,7 @@ import {
 import PageHeader from "../../../components/ui/PageHeader";
 import UpdateEventStatusForm from "../../../components/forms/UpdateEventStatusForm";
 import PageError from "../../../components/ui/PageError";
+import Link from "next/link";
 
 /*
 Wishlist detail page orchestration for one wishlist:
@@ -106,35 +107,62 @@ export default function WishlistPageClient({ wishlistId }) {
         description="Events saved to this wishlist"
       />
 
-      {isLoading && <p>Loading wishlist events…</p>}
-      <PageError message={errorMessage} />
-      {!isLoading && !errorMessage && events.length === 0 && (
-        <p>This wishlist does not have any saved events yet</p>
+      {!isProfileReady && <p>Checking for a saved demo profile…</p>}
+
+      {isProfileReady && !profile && (
+        <section aria-labelledby="demo-profile-required-heading">
+          <h2 id="demo-profile-required-heading">
+            Choose a demo profile first
+          </h2>
+
+          <p>A demo profile is needed to view wishlist events</p>
+
+          <Link href="/">Choose a demo profile</Link>
+        </section>
       )}
-      {!isLoading && !errorMessage && events.length > 0 && (
-        <EventList
-          events={events}
-          renderActions={(event) => (
-            <UpdateEventStatusForm
-              wishlistEventId={event.wishlist_event_id}
-              eventName={event.event_name}
-              currentStatus={event.status}
-              onStatusUpdate={handleStatusUpdate}
-              isUpdating={updatingEventId === event.wishlist_event_id}
-              errorMessage={
-                statusFeedbackEventId === event.wishlist_event_id
-                  ? statusErrorMessage
-                  : ""
-              }
-              successMessage={
-                statusFeedbackEventId === event.wishlist_event_id
-                  ? statusSuccessMessage
-                  : ""
-              }
-            />
-          )}
-        />
+
+      {isProfileReady && profile && isLoading && (
+        <p>Loading wishlist events…</p>
       )}
+
+      {isProfileReady && profile && <PageError message={errorMessage} />}
+
+      {isProfileReady &&
+        profile &&
+        !isLoading &&
+        !errorMessage &&
+        events.length === 0 && (
+          <p>This wishlist does not have any saved events yet</p>
+        )}
+
+      {isProfileReady &&
+        profile &&
+        !isLoading &&
+        !errorMessage &&
+        events.length > 0 && (
+          <EventList
+            events={events}
+            renderActions={(event) => (
+              <UpdateEventStatusForm
+                wishlistEventId={event.wishlist_event_id}
+                eventName={event.event_name}
+                currentStatus={event.status}
+                onStatusUpdate={handleStatusUpdate}
+                isUpdating={updatingEventId === event.wishlist_event_id}
+                errorMessage={
+                  statusFeedbackEventId === event.wishlist_event_id
+                    ? statusErrorMessage
+                    : ""
+                }
+                successMessage={
+                  statusFeedbackEventId === event.wishlist_event_id
+                    ? statusSuccessMessage
+                    : ""
+                }
+              />
+            )}
+          />
+        )}
     </>
   );
 }
