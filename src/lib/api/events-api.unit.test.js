@@ -18,10 +18,10 @@ describe("searchEvents", () => {
   afterAll(() => {
     global.fetch = originalFetch;
 
-    if (originalApiUrl) {
-      process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
-    } else {
+    if (originalApiUrl === undefined) {
       delete process.env.NEXT_PUBLIC_API_URL;
+    } else {
+      process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
     }
   });
 
