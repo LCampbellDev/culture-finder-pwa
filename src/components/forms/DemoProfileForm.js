@@ -3,14 +3,19 @@
 import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 import { useEffect, useRef, useState } from "react";
+import {
+  MAX_USERNAME_LENGTH,
+  validateUsername,
+} from "../../lib/validation/username-validation";
 
-const MAX_USERNAME_LENGTH = 50;
+import { validateTextInput } from "../../lib/validation/validate-text-input";
 
-function containsUnsupportedCharacters(value) {
-  return [...value].some(
-    (character) => character !== " " && /[\p{C}\p{Z}]/u.test(character),
-  );
-}
+/*
+Demo profile form:
+- Validates and submits a username
+- Manages validation errors and focus
+- Disables submission while the profile is being created
+*/
 
 export default function DemoProfileForm({
   onProfileSubmit,
@@ -29,25 +34,15 @@ export default function DemoProfileForm({
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const trimmedUsername = username.trim();
+    const usernameValidation = validateUsername(username);
 
-    if (!trimmedUsername) {
-      showError("Enter a demo username");
-      return;
-    }
-
-    if (trimmedUsername.length > MAX_USERNAME_LENGTH) {
-      showError("Demo username must be 50 characters or fewer");
-      return;
-    }
-
-    if (containsUnsupportedCharacters(trimmedUsername)) {
-      showError("Demo username contains unsupported characters");
+    if (usernameValidation.error) {
+      showError(usernameValidation.error);
       return;
     }
 
     setUsernameError("");
-    await onProfileSubmit(trimmedUsername);
+    await onProfileSubmit(usernameValidation.value);
   }
 
   function showError(message) {

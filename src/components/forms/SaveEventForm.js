@@ -5,6 +5,13 @@ import FieldError from "./FieldError";
 import styles from "./Form.module.css";
 import feedbackStyles from "../ui/Feedback.module.css";
 
+/*
+Save event form:
+
+- Lets users choose a wishlist and save an event
+- Handles wishlist availability, validation and accessible feedback
+*/
+
 export default function SaveEventForm({
   eventName,
   wishlists,
@@ -12,6 +19,8 @@ export default function SaveEventForm({
   isSaving = false,
   successMessage = "",
   errorMessage = "",
+  areWishlistsLoading = false,
+  wishlistLoadError = "",
 }) {
   const [selectedWishlistId, setSelectedWishlistId] = useState("");
   const [wishlistError, setWishlistError] = useState("");
@@ -21,6 +30,13 @@ export default function SaveEventForm({
   const selectId = `${fieldId}-wishlist`;
   const hintId = `${fieldId}-wishlist-hint`;
   const errorId = `${fieldId}-wishlist-error`;
+  const hasNoWishlists =
+    !areWishlistsLoading && !wishlistLoadError && wishlists.length === 0;
+  const areWishlistControlsDisabled =
+    isSaving ||
+    areWishlistsLoading ||
+    Boolean(wishlistLoadError) ||
+    hasNoWishlists;
 
   useEffect(() => {
     if (wishlistError) {
@@ -67,6 +83,14 @@ export default function SaveEventForm({
 
         <FieldError id={errorId} message={wishlistError} />
 
+        {wishlistLoadError && (
+          <p className={feedbackStyles.error} role="alert">
+            <strong>Error:</strong> {wishlistLoadError}
+          </p>
+        )}
+
+        {hasNoWishlists && <p>You don&apos;t have any wishlists yet</p>}
+
         <select
           ref={wishlistSelectRef}
           className={styles.control}
@@ -76,9 +100,12 @@ export default function SaveEventForm({
           onChange={handleWishlistChange}
           aria-describedby={wishlistError ? `${hintId} ${errorId}` : hintId}
           aria-invalid={wishlistError ? "true" : undefined}
+          disabled={areWishlistControlsDisabled}
           required
         >
-          <option value="">Choose a wishlist</option>
+          <option value="">
+            {areWishlistsLoading ? "Loading wishlists…" : "Choose a wishlist"}
+          </option>
 
           {wishlists.map((wishlist) => (
             <option key={wishlist.wishlist_id} value={wishlist.wishlist_id}>
@@ -91,7 +118,7 @@ export default function SaveEventForm({
       <button
         className={styles.button}
         type="submit"
-        disabled={isSaving}
+        disabled={areWishlistControlsDisabled}
         aria-label={
           isSaving
             ? `Saving to wishlist: ${eventName}`

@@ -1,0 +1,230 @@
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import WishlistPageClient from "./WishlistPageClient";
+import { useDemoProfile } from "../../../context/DemoProfileContext";
+import {
+  getUserWishlists,
+  getWishlistEvents,
+  updateWishlistEventStatus,
+} from "../../../lib/api/wishlists-api";
+
+jest.mock("../../../context/DemoProfileContext", () => ({
+  useDemoProfile: jest.fn(),
+}));
+
+jest.mock("../../../lib/api/wishlists-api", () => ({
+  getUserWishlists: jest.fn(),
+  getWishlistEvents: jest.fn(),
+  updateWishlistEventStatus: jest.fn(),
+  WISHLIST_STATUSES: ["Wishlist", "Booked", "Not Interested"],
+}));
+
+describe("Wishlist page", () => {
+  beforeEach(() => {
+    useDemoProfile.mockReturnValue({
+      profile: {
+        userId: 2,
+        username: "Demo explorer",
+      },
+      isProfileReady: true,
+    });
+
+    getUserWishlists.mockResolvedValue([
+      {
+        wishlist_id: 5,
+        user_id: 2,
+        wishlist_title: "Summer events",
+      },
+    ]);
+
+    updateWishlistEventStatus.mockResolvedValue({});
+
+    getWishlistEvents.mockResolvedValue([]);
+  });
+
+  it("prompts the user to choose a demo profile when none is active", () => {
+    // Arrange
+    const wishlistId = "5";
+
+    useDemoProfile.mockReturnValue({
+      profile: null,
+      isProfileReady: true,
+    });
+
+    // Act
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    // Assert
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: "Choose a demo profile first",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: "Choose a demo profile",
+      }),
+    ).toHaveAttribute("href", "/");
+
+    expect(
+      screen.queryByText("Loading wishlist events…"),
+    ).not.toBeInTheDocument();
+
+    expect(getUserWishlists).not.toHaveBeenCalled();
+    expect(getWishlistEvents).not.toHaveBeenCalled();
+  });
+
+  it("renders the selected wishlist title", async () => {
+    // Arrange
+    const wishlistId = "5";
+
+    // Act
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    // Assert
+    expect(
+      await screen.findByRole("heading", {
+        level: 1,
+        name: "Summer events",
+      }),
+    ).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(getWishlistEvents).toHaveBeenCalledWith(5);
+    });
+  });
+
+  it("shows a message when the wishlist has no saved events", async () => {
+    // Arrange
+    const wishlistId = "5";
+
+    // Act
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    // Assert
+    expect(
+      await screen.findByText(
+        /this wishlist does not have any saved events yet/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders events saved to the wishlist", async () => {
+    // Arrange
+    const wishlistId = "5";
+
+    getWishlistEvents.mockResolvedValue([
+      {
+        wishlist_event_id: 8,
+        event_name: "Leeds Jazz Evening",
+        event_date: "2026-09-20",
+        event_time: "19:30:00",
+        venue_name: "Leeds Town Hall",
+        city: "Leeds",
+        category: "Music",
+        status: "Wishlist",
+      },
+    ]);
+
+    // Act
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    // Assert
+    expect(
+      await screen.findByRole("heading", {
+        name: "Leeds Jazz Evening",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("updates the status of a saved event", async () => {
+    // Arrange
+    const wishlistId = "5";
+
+    getWishlistEvents.mockResolvedValue([
+      {
+        wishlist_event_id: 8,
+        event_name: "Leeds Jazz Evening",
+        event_date: "2026-09-20",
+        event_time: "19:30:00",
+        venue_name: "Leeds Town Hall",
+        city: "Leeds",
+        category: "Music",
+        status: "Wishlist",
+      },
+    ]);
+
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    const statusSelect = await screen.findByRole("combobox", {
+      name: /status for Leeds Jazz Evening/i,
+    });
+
+    // Act
+    fireEvent.change(statusSelect, {
+      target: { value: "Booked" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /update status for Leeds Jazz Evening/i,
+      }),
+    );
+
+    // Assert
+    await waitFor(() => {
+      expect(updateWishlistEventStatus).toHaveBeenCalledWith(8, "Booked");
+    });
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Status updated to Booked",
+    );
+  });
+
+  it("shows an error when updating the status fails", async () => {
+    // Arrange
+    const wishlistId = "5";
+
+    getWishlistEvents.mockResolvedValue([
+      {
+        wishlist_event_id: 8,
+        event_name: "Leeds Jazz Evening",
+        event_date: "2026-09-20",
+        event_time: "19:30:00",
+        venue_name: "Leeds Town Hall",
+        city: "Leeds",
+        category: "Music",
+        status: "Wishlist",
+      },
+    ]);
+
+    updateWishlistEventStatus.mockRejectedValue(
+      new Error("Could not update event status"),
+    );
+
+    render(<WishlistPageClient wishlistId={wishlistId} />);
+
+    const statusSelect = await screen.findByRole("combobox", {
+      name: /status for Leeds Jazz Evening/i,
+    });
+
+    // Act
+    fireEvent.change(statusSelect, {
+      target: { value: "Booked" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /update status for Leeds Jazz Evening/i,
+      }),
+    );
+
+    // Assert
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Could not update event status",
+    );
+
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
+});

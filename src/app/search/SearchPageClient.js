@@ -4,12 +4,23 @@ import { useEffect, useState } from "react";
 import EventList from "../../components/events/EventList";
 import SearchForm from "../../components/forms/SearchForm";
 import PageHeader from "../../components/ui/PageHeader";
-import { searchEvents } from "../../lib/api/events";
+import { searchEvents } from "../../lib/api/events-api";
 import feedbackStyles from "../../components/ui/Feedback.module.css";
 import PageError from "../../components/ui/PageError";
 import SaveEventForm from "../../components/forms/SaveEventForm";
 import { useDemoProfile } from "../../context/DemoProfileContext";
-import { addEventToWishlist, getUserWishlists } from "../../lib/api/wishlists";
+import {
+  addEventToWishlist,
+  getUserWishlists,
+} from "../../lib/api/wishlists-api";
+
+/*
+Search page orchestration:
+
+- Searches for events and presents search feedback
+- Loads the active user's wishlists for saving events
+- Coordinates per-event save state and feedback
+*/
 
 export default function SearchPageClient() {
   const { profile, isProfileReady } = useDemoProfile();
@@ -30,6 +41,7 @@ export default function SearchPageClient() {
       return;
     }
 
+    // Prevent stale async responses from updating state after cleanup
     let isCurrent = true;
 
     async function loadWishlists() {
@@ -66,6 +78,9 @@ export default function SearchPageClient() {
     setEvents([]);
     setResultMessage("");
     setErrorMessage("");
+    setSaveSuccessMessage("");
+    setSaveErrorMessage("");
+    setSaveFeedbackEventId(null);
 
     try {
       const result = await searchEvents(city, category);
@@ -135,6 +150,8 @@ export default function SearchPageClient() {
           <SaveEventForm
             eventName={event.event_name}
             wishlists={availableWishlists}
+            areWishlistsLoading={areWishlistsLoading}
+            wishlistLoadError={wishlistLoadError}
             onSave={(wishlistId) =>
               handleSaveToWishlist(wishlistId, event.event_id)
             }

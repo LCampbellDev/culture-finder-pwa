@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { WISHLIST_STATUSES } from "../../lib/api/wishlists";
+import { WISHLIST_STATUSES } from "../../lib/api/wishlists-api";
 
 export default function UpdateEventStatusForm({
   wishlistEventId,
@@ -20,8 +20,11 @@ export default function UpdateEventStatusForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor={`status-${wishlistEventId}`}>Status</label>
+    <form onSubmit={handleSubmit} aria-label={`Update status for ${eventName}`}>
+      <label htmlFor={`status-${wishlistEventId}`}>
+        Status
+        <span className="visually-hidden"> for {eventName}</span>
+      </label>
 
       <select
         id={`status-${wishlistEventId}`}
@@ -35,7 +38,16 @@ export default function UpdateEventStatusForm({
           </option>
         ))}
       </select>
-      <button type="submit" disabled={isUpdating}>
+
+      <button
+        type="submit"
+        disabled={isUpdating}
+        aria-label={
+          isUpdating
+            ? `Updating status for ${eventName}`
+            : `Update status for ${eventName}`
+        }
+      >
         {isUpdating ? "Updating…" : "Update status"}
       </button>
       {errorMessage && <p role="alert">{errorMessage}</p>}
